@@ -1,8 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from werkzeug.security import generate_password_hash, check_password_hash
-from app.models import User
+from werkzeug.security import check_password_hash
 from app import db
-from sqlalchemy import text
+from app.utils.users import create_user, get_user_by_username
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth_bp.route('/signup', methods=('GET', 'POST'))
@@ -52,14 +51,3 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('auth.login'))
-
-def create_user(username, password):
-    sql = "INSERT INTO users (username, password) VALUES (:username, :password) RETURNING *"
-    result = db.session.execute(text(sql), {"username": username, "password": generate_password_hash(password)})
-    return result.fetchone()
-
-def get_user_by_username(username):
-    sql = "SELECT * FROM users WHERE username = :username"
-    result = db.session.execute(text(sql), {"username": username})
-    return result.fetchone()
-

@@ -2,13 +2,15 @@
 
 {% block header %}
 <h1>{{ group.name }}</h1>
-{% endblock %}
-{% if session['user_id'] == group.created_by %}
+{% if is_user_group_creator %}
 <a href="{{ url_for('groups.edit', group_id=group.id) }}">Edit</a>
 {% endif %}
+{% endblock %}
+
 {% block content %}
 {% for message in messages %}
 <p>{{ message.content }}</p>
+{{ message.user_id }}
 {% endfor %}
 <form action="{{ url_for('groups.group', group_id=group.id) }}" method="post">
     <input type="hidden" name="group_id" value="{{ group.id }}">

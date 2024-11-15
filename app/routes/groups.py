@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash
-from sqlalchemy import text
+from app.utils.groups import get_user_group, get_user_messages, create_group, add_user_to_group, edit_user_group, invite_user_to_group, get_group_members, send_group_message, get_group_invites
 from app import db
 
 groups_bp = Blueprint('groups', __name__)
@@ -25,7 +25,7 @@ def group(group_id):
         return redirect(url_for('groups.group', group_id=group_id))
     else:
         messages = get_user_messages(group_id)
-        return render_template('groups/group.html', group=group, messages=messages)
+        return render_template('groups/group.html', group=group, messages=messages, is_user_group_creator=is_user_group_creator(group, session['user_id']))
 
 
 @groups_bp.route("/edit/<int:group_id>", methods=('GET', 'POST'))
@@ -37,52 +37,16 @@ def edit(group_id):
         return redirect(url_for('groups.group', group_id=group_id))
     else:
         group = get_user_group(group_id)
-        return render_template('groups/edit.html', group=group)
+        invites = get_group_invites(group_id)
+        members = get_group_members(group_id)  
+        return render_template('groups/edit.html', group=group, members=members, invites=invites)
 
 
-def get_user_group(group_id,):
-    sql = """
-    SELECT * FROM groups 
-    JOIN users_groups 
-    ON groups.id = users_groups.group_id 
-    WHERE groups.id = :group_id 
-    AND users_groups.user_id = :user_id
-    """
-    result = db.session.execute(text(sql), {"group_id": group_id, "user_id": session['user_id']})
-    return result.fetchone()
-
-
-def get_user_messages(group_id):
-    sql = """
-    SELECT m.id, m.content, m.created_at, u.username
-    FROM groups g
-    JOIN users_groups ug ON g.id = ug.group_id
-    JOIN users u ON ug.user_id = u.id
-    JOIN messages m ON g.id = m.group_id
-    WHERE g.id = :group_id
-    AND ug.user_id = :user_id
-    """
-    result = db.session.execute(text(sql), {"group_id": group_id, "user_id": session['user_id']})
-    return result.fetchall()
-
-def send_group_message(group_id, content):
-    group = get_user_group(group_id)
-    if not group:
-        flash('You are not in this group.')
-        return redirect(url_for('root.index'))
-    sql = "INSERT INTO messages (content, group_id, sender_id) VALUES (:content, :group_id, :sender_id)"
-    db.session.execute(text(sql), {"content": content, "group_id": group_id, "sender_id": session['user_id']})
+@groups_bp.route("/edit/<int:group_id>/invite", methods=['POST'])
+def invite(group_id):
+    username = request.form['username']
+    invite_user_to_group(group_id, username)
     db.session.commit()
+    return redirect(url_for('groups.edit', group_id=group_id))
 
-def edit_user_group(group_id, name):
-    sql = "UPDATE groups SET name = :name WHERE id = :group_id AND created_by = :user_id"
-    db.session.execute(text(sql), {"name": name, "group_id": group_id, "user_id": session['user_id']})
 
-def create_group(name):
-    sql = "INSERT INTO groups (name, created_by) VALUES (:name, :user_id) RETURNING id"
-    result = db.session.execute(text(sql), {"name": name, "user_id": session['user_id']})
-    return result.fetchone()[0]
-
-def add_user_to_group(group_id):
-    sql = "INSERT INTO users_groups (user_id, group_id) VALUES (:user_id, :group_id)"
-    db.session.execute(text(sql), {"user_id": session['user_id'], "group_id": group_id})

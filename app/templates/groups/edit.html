@@ -5,9 +5,23 @@
 {% endblock %}
 
 {% block content %}
-<form action="{{ url_for('groups.update', group_id=group.id) }}" method="post">
+<form action="{{ url_for('groups.edit', group_id=group.id) }}" method="post">
     <label for="name">Name</label>
     <input type="text" name="name" value="{{ group.name }}">
     <input type="submit" value="Save">
+</form>
+<h2>Members</h2>
+{% for member in members %}
+<p>{{ member.username }}</p>
+{% endfor %}
+<h2>Invites</h2>
+{% for invite in invites %}
+<p>{{ invite.username }}</p>
+{% endfor %}
+<h2>Invite User</h2>
+<form action="{{ url_for('groups.invite', group_id=group.id) }}" method="post">
+    <label for="username">Username</label>
+    <input type="text" name="username">
+    <input type="submit" value="Invite">
 </form>
 {% endblock %}

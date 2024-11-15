@@ -12,6 +12,9 @@ def create_app():
 
     app.secret_key = app.config['SECRET_KEY']
     migrate.init_app(app, db)
+    if app.config['ENVIRONMENT'] == 'development':
+        app.debug = True
+
     from .routes import root_bp, groups, auth
     app.register_blueprint(root_bp)
     app.register_blueprint(groups.groups_bp)
