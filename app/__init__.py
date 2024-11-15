@@ -12,8 +12,9 @@ def create_app():
 
     app.secret_key = app.config['SECRET_KEY']
     migrate.init_app(app, db)
-    from .routes import root_bp, auth
+    from .routes import root_bp, groups, auth
     app.register_blueprint(root_bp)
+    app.register_blueprint(groups.groups_bp)
     app.register_blueprint(auth.auth_bp)
 
     return app

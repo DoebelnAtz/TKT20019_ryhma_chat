@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import User
 from app import db
-
+from sqlalchemy import text
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth_bp.route('/signup', methods=('GET', 'POST'))
@@ -16,12 +16,11 @@ def signup():
         elif not password:
             flash('Password is required.')
         else:
-            existing_user = db.session.query(User).filter(User.username == username).first()
+            existing_user = get_user_by_username(username)
             if existing_user:
                 flash('Username is already taken.')
             else:
-                new_user = User(username=username, password=generate_password_hash(password))
-                db.session.add(new_user)
+                create_user(username, password)
                 db.session.commit()
                 return redirect(url_for('auth.login'))
 
@@ -33,7 +32,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = db.session.query(User).filter(User.username == username).first()
+        user = get_user_by_username(username)
         error = None
         if user is None:
             # Generally considered a bad practice to leak information about 
@@ -53,3 +52,14 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('auth.login'))
+
+def create_user(username, password):
+    sql = "INSERT INTO users (username, password) VALUES (:username, :password) RETURNING *"
+    result = db.session.execute(text(sql), {"username": username, "password": generate_password_hash(password)})
+    return result.fetchone()
+
+def get_user_by_username(username):
+    sql = "SELECT * FROM users WHERE username = :username"
+    result = db.session.execute(text(sql), {"username": username})
+    return result.fetchone()
+
