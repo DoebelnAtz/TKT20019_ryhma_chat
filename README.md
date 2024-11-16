@@ -51,13 +51,16 @@ Asennusohjeet:
 5. **Tietokannan alustaminen**:
    Suorita `./reset_db.sh` -skripti tietokannan nollaamiseksi ja alustamiseksi tarvittavilla tauluilla ja tiedoilla. Tämä skripti pudottaa olemassa olevat taulukot ja luo uudet schema.sql mukaisesti.
 
-6. **Sovelluksen käynnistäminen**: Käynnistä Flask-sovellus:
+6. **Ympäristön alustaminen**:
+   Suorita ./init_env.sh -skripti joka luo uuden .flaskenv tiedoston mallin perusteella.
+
+7. **Sovelluksen käynnistäminen**: Käynnistä Flask-sovellus:
 
    ```bash
    flask run
    ```
 
-7. **Käyttö**: Avaa selain ja siirry osoitteeseen `http://127.0.0.1:5000` käyttääksesi sovellusta.
+8. **Käyttö**: Avaa selain ja siirry osoitteeseen `http://127.0.0.1:5000` käyttääksesi sovellusta.
 
 ## Näkymät.
 
