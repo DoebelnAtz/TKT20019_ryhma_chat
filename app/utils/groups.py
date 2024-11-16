@@ -14,8 +14,45 @@ def get_user_group(group_id):
     result = db.session.execute(text(sql), {"group_id": group_id, "user_id": session['user_id']})
     return result.fetchone()
 
+def get_user_groups():
+    sql = """
+    SELECT * FROM groups g 
+    JOIN users_groups ug 
+    ON g.id = ug.group_id 
+    WHERE ug.user_id = :user_id
+    """
+    result = db.session.execute(text(sql), {"user_id": session['user_id']})
+    return result.fetchall()
 
-def get_user_messages(group_id):
+def get_user_invites():
+    sql = """
+    SELECT gi.id, g.name FROM group_invites gi 
+    JOIN groups g ON gi.group_id = g.id
+    WHERE gi.recipient_id = :user_id
+    """
+    result = db.session.execute(text(sql), {"user_id": session['user_id']})
+    return result.fetchall()
+
+def get_group_invite(invite_id):
+    sql = "SELECT * FROM group_invites WHERE id = :invite_id"
+    result = db.session.execute(text(sql), {"invite_id": invite_id})
+    return result.fetchone()
+
+def accept_group_invite(invite_id):
+    invite = get_group_invite(invite_id)
+    if not invite:
+        flash('Invite not found.')
+        return redirect(url_for('root.index'))
+    if invite.recipient_id != session['user_id']:
+        flash('You are not the recipient of this invite.')
+        return redirect(url_for('root.index'))
+    
+    add_user_to_group(invite.group_id)
+    sql = "DELETE FROM group_invites WHERE id = :invite_id"
+    db.session.execute(text(sql), {"invite_id": invite_id})
+    db.session.commit()
+
+def get_group_messages(group_id):
     sql = """
     SELECT m.id, m.content, m.created_at, u.username
     FROM groups g
