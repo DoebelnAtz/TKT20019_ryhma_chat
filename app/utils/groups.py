@@ -1,4 +1,4 @@
-from flask import session, flash, redirect, url_for
+from flask import session
 from sqlalchemy import text
 from app.utils.errors import HTTPError
 from app.utils.users import get_user_by_username
@@ -60,7 +60,7 @@ def accept_group_invite(invite_id):
 
 def get_group_messages(group_id):
     sql = """
-    SELECT m.id, m.content, m.created_at, u.username
+    SELECT m.id, m.content, m.created_at, u.username, u.id as user_id
     FROM groups g
     JOIN users_groups ug ON g.id = ug.group_id
     JOIN users u ON ug.user_id = u.id
@@ -93,9 +93,7 @@ def send_group_message(group_id, content):
 
 
 def is_group_creator(group_id):
-    sql = "SELECT created_by FROM groups WHERE id = :group_id"
-    result = db.session.execute(text(sql), {"group_id": group_id})
-    return result.fetchone()[0] == session['user_id']
+    return is_user_group_creator(get_user_group(group_id), session['user_id'])
 
 
 def edit_user_group(group_id, name):
@@ -124,8 +122,7 @@ def add_user_to_group(group_id):
 def invite_user_to_group(group_id, username):
     recipient = get_user_by_username(username)
     if not recipient:
-        flash('User not found.')
-        return redirect(url_for('groups.edit', group_id=group_id))
+        raise HTTPError('User not found.', 404)
 
     sql = """
     INSERT INTO group_invites (group_id, sender_id, recipient_id) 

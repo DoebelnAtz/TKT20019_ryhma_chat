@@ -1,5 +1,8 @@
 from functools import wraps
 from flask import redirect, url_for, flash
+from app.utils.logger import Logger
+
+logger = Logger(__name__)
 
 
 class HTTPError(Exception):
@@ -11,8 +14,11 @@ class HTTPError(Exception):
         if status is not None:
             self.status = status
 
-    def to_string(self):
+    def _to_string(self):
         return f"{self.status} {self.message}"
+
+    def __str__(self):
+        return self._to_string()
 
 
 def handle_errors(f):
@@ -21,15 +27,17 @@ def handle_errors(f):
         try:
             return f(*args, **kwargs)
         except HTTPError as e:
+            logger.error(str(e))
             if e.status == 401:
                 flash("You must be logged in to do that.")
                 return redirect(url_for('auth.login'))
             if e.status == 404:
                 flash("Not found.")
                 return redirect(url_for('errors.not_found'))
-            flash(e.to_string())
-            return redirect(url_for('errors.error', error_message=e.to_string()))
-        except Exception:
+            flash(str(e))
+            return redirect(url_for('errors.error', error_message=str(e)))
+        except Exception as e:
             flash("Something went wrong.")
+            logger.error(str(e))
             return redirect(url_for('errors.error', error_message="Something went wrong"))
     return decorated_function

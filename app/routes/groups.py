@@ -35,7 +35,14 @@ def group(group_id):
         return redirect(url_for('groups.group', group_id=group_id))
     else:
         messages = get_group_messages(group_id)
-        return render_template('groups/group.html', group=user_group, messages=messages, is_user_group_creator=is_user_group_creator(user_group, session['user_id']))
+        messages_serializable = [{
+            'content': message.content,
+            'id': message.id,
+            'created_at': message.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'username': message.username,
+            'user_id': message.user_id
+        } for message in messages]
+        return render_template('groups/group.html', group=user_group, messages=messages_serializable, is_user_group_creator=is_user_group_creator(user_group, session['user_id']))
 
 
 @groups_bp.route("/edit/<int:group_id>", methods=('GET', 'POST'))
@@ -51,8 +58,12 @@ def edit(group_id):
         user_group = get_user_group(group_id)
         invites = get_group_invites(group_id)
         members = get_group_members(group_id)
-        is_creator = user_group.created_by == session['user_id']
-        return render_template('groups/edit.html', group=user_group, members=members, invites=invites, is_creator=is_creator)
+        is_creator = is_user_group_creator(user_group, session['user_id'])
+        return render_template('groups/edit.html',
+                               group=user_group,
+                               members=members,
+                               invites=invites,
+                               is_creator=is_creator)
 
 
 @groups_bp.route("/edit/<int:group_id>/invite", methods=['POST'])

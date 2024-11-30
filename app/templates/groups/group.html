@@ -17,4 +17,9 @@
     <input autofocus type="text" name="content" placeholder="Message">
     <input type="submit" value="Send">
 </form>
+<script>
+    console.log({{messages|tojson}});
+    const chat_messages = {{messages|tojson}};
+    console.log(chat_messages);
+</script>
 {% endblock %}
