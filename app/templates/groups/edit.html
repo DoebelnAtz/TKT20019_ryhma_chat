@@ -10,6 +10,12 @@
     <input type="text" name="name" value="{{ group.name }}">
     <input type="submit" value="Save">
 </form>
+{% if is_creator %}
+<h2>Delete Group</h2>
+<form action="{{ url_for('groups.delete', group_id=group.id) }}" method="post">
+    <input type="submit" value="Delete">
+</form>
+{% endif %}
 <h2>Members</h2>
 {% for member in members %}
 <p>{{ member.username }}</p>
@@ -24,4 +30,10 @@
     <input type="text" name="username">
     <input type="submit" value="Invite">
 </form>
+{% if not is_creator %}
+<h2>Leave Group</h2>
+<form action="{{ url_for('groups.leave', group_id=group.id) }}" method="post">
+    <input type="submit" value="Leave">
+</form>
+{% endif %}
 {% endblock %}

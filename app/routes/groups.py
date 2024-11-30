@@ -1,9 +1,9 @@
 from flask import Blueprint, request, render_template, redirect, url_for, session
 from app.utils.groups import get_user_group, get_group_messages, create_group, add_user_to_group
-from app.utils.groups import edit_user_group, invite_user_to_group, get_group_members, is_user_group_creator
-from app.utils.groups import send_group_message, get_group_invites
+from app.utils.groups import edit_user_group, invite_user_to_group, get_group_members
+from app.utils.groups import send_group_message, get_group_invites, is_user_group_creator
+from app.utils.groups import accept_group_invite, leave_user_group, delete_user_group
 from app.utils.auth import login_required
-from app.utils.groups import accept_group_invite
 from app import db
 from app.utils.errors import handle_errors
 
@@ -51,7 +51,8 @@ def edit(group_id):
         user_group = get_user_group(group_id)
         invites = get_group_invites(group_id)
         members = get_group_members(group_id)
-        return render_template('groups/edit.html', group=user_group, members=members, invites=invites)
+        is_creator = user_group.created_by == session['user_id']
+        return render_template('groups/edit.html', group=user_group, members=members, invites=invites, is_creator=is_creator)
 
 
 @groups_bp.route("/edit/<int:group_id>/invite", methods=['POST'])
@@ -69,5 +70,23 @@ def invite(group_id):
 @handle_errors
 def accept_invite(invite_id):
     accept_group_invite(invite_id)
+    db.session.commit()
+    return redirect(url_for('root.index'))
+
+
+@groups_bp.route("/<int:group_id>/leave", methods=['POST'])
+@login_required
+@handle_errors
+def leave(group_id):
+    leave_user_group(group_id)
+    db.session.commit()
+    return redirect(url_for('root.index'))
+
+
+@groups_bp.route("/<int:group_id>/delete", methods=['POST'])
+@login_required
+@handle_errors
+def delete(group_id):
+    delete_user_group(group_id)
     db.session.commit()
     return redirect(url_for('root.index'))

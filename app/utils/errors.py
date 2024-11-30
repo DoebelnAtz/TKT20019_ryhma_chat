@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import redirect, url_for
+from flask import redirect, url_for, flash
 
 
 class HTTPError(Exception):
@@ -22,10 +22,14 @@ def handle_errors(f):
             return f(*args, **kwargs)
         except HTTPError as e:
             if e.status == 401:
+                flash("You must be logged in to do that.")
                 return redirect(url_for('auth.login'))
             if e.status == 404:
+                flash("Not found.")
                 return redirect(url_for('errors.not_found'))
+            flash(e.to_string())
             return redirect(url_for('errors.error', error_message=e.to_string()))
         except Exception:
+            flash("Something went wrong.")
             return redirect(url_for('errors.error', error_message="Something went wrong"))
     return decorated_function

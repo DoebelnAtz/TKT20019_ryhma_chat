@@ -48,11 +48,9 @@ def get_group_invite(invite_id):
 def accept_group_invite(invite_id):
     invite = get_group_invite(invite_id)
     if not invite:
-        flash('Invite not found.')
-        return redirect(url_for('root.index'))
+        raise HTTPError('Invite not found.', 404)
     if invite.recipient_id != session['user_id']:
-        flash('You are not the recipient of this invite.')
-        return redirect(url_for('root.index'))
+        raise HTTPError('You are not the recipient of this invite.', 403)
 
     add_user_to_group(invite.group_id)
     sql = "DELETE FROM group_invites WHERE id = :invite_id"
@@ -78,8 +76,7 @@ def get_group_messages(group_id):
 def send_group_message(group_id, content):
     group = get_user_group(group_id)
     if not group:
-        flash('You are not in this group.')
-        return redirect(url_for('root.index'))
+        raise HTTPError('Group not found.', 404)
     sql = """
     INSERT INTO messages (content, group_id, sender_id) 
     VALUES (:content, :group_id, :sender_id)
@@ -93,6 +90,12 @@ def send_group_message(group_id, content):
         }
     )
     db.session.commit()
+
+
+def is_group_creator(group_id):
+    sql = "SELECT created_by FROM groups WHERE id = :group_id"
+    result = db.session.execute(text(sql), {"group_id": group_id})
+    return result.fetchone()[0] == session['user_id']
 
 
 def edit_user_group(group_id, name):
@@ -160,3 +163,18 @@ def get_group_invites(group_id):
 
 def is_user_group_creator(group, user_id):
     return group.created_by == user_id
+
+
+def leave_user_group(group_id):
+    sql = "DELETE FROM users_groups WHERE user_id = :user_id AND group_id = :group_id"
+    db.session.execute(
+        text(sql), {"user_id": session['user_id'], "group_id": group_id})
+
+
+def delete_user_group(group_id):
+    if not is_group_creator(group_id):
+        raise HTTPError('You are not the creator of this group.', 403)
+
+    sql = "DELETE FROM groups WHERE id = :group_id AND created_by = :user_id"
+    db.session.execute(
+        text(sql), {"group_id": group_id, "user_id": session['user_id']})

@@ -14,7 +14,7 @@
 {% endfor %}
 <form action="{{ url_for('groups.group', group_id=group.id) }}" method="post">
     <input type="hidden" name="group_id" value="{{ group.id }}">
-    <input type="text" name="content" placeholder="Message">
+    <input autofocus type="text" name="content" placeholder="Message">
     <input type="submit" value="Send">
 </form>
 {% endblock %}
