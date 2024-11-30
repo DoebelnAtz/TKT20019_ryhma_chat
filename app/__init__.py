@@ -1,7 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 
-db = SQLAlchemy() 
+db = SQLAlchemy()
+
+
 def create_app():
     app = Flask(__name__)
 
@@ -12,11 +14,13 @@ def create_app():
     if app.config['ENVIRONMENT'] == 'development':
         app.debug = True
 
-    from .routes import root_bp, groups, auth
+    from .routes import root_bp, groups, auth, errors
     app.register_blueprint(root_bp)
+    app.register_blueprint(errors.errors_bp)
     app.register_blueprint(groups.groups_bp)
     app.register_blueprint(auth.auth_bp)
 
     return app
+
 
 app = create_app()
