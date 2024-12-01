@@ -11,7 +11,6 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth_bp.route('/signup', methods=('GET', 'POST'))
 @handle_errors
-@csrf_required
 def signup():
     if request.method == 'POST':
         username = request.form['username']
@@ -35,7 +34,6 @@ def signup():
 
 @auth_bp.route('/login', methods=('GET', 'POST'))
 @handle_errors
-@csrf_required
 def login():
     if request.method == 'POST':
         username = request.form['username']

@@ -6,7 +6,7 @@ Tämä web-applikaatio antaa käyttäjän lähettää viestejä eri ryhmissä mu
 
 ## Valipalautus 2:
 
-Sovelluksen kaikki toiminnot on toteutettu, vain css on vielä tekemättä.
+Sovelluksen kaikki toiminnot on toteutettu ja perus tietoturvahuolet niin kuin CSRF ja SQL-injektio ja salasanan salaaminen on otettu huomioon. Ulkonäköa ei ole vielä hiottu.
 
 ## Välipalautus 1:
 

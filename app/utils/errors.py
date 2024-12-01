@@ -36,11 +36,11 @@ def handle_errors(f):
                 flash("Not found.")
                 return redirect(url_for('errors.not_found'))
             flash(str(e))
-            return redirect(url_for('errors.error', error_message=str(e)))
+            return redirect(url_for('errors.error', error_message=str(e), status=e.status))
         except Exception as e:
             flash("Something went wrong.")
             logger.error(str(e), traceback.format_exc())
-            return redirect(url_for('errors.error', error_message="Something went wrong"))
+            return redirect(url_for('errors.error', error_message="Something went wrong", status=500))
     return decorated_function
 
 

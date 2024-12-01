@@ -54,7 +54,6 @@ def accept_group_invite(invite_id):
         raise HTTPError('Invite not found.', 404)
     if invite.recipient_id != session['user_id']:
         raise HTTPError('You are not the recipient of this invite.', 403)
-
     add_user_to_group(invite.group_id)
     sql = "DELETE FROM group_invites WHERE id = :invite_id"
     db.session.execute(text(sql), {"invite_id": invite_id})
@@ -145,6 +144,7 @@ def add_user_to_group(group_id):
 
 def invite_user_to_group(group_id, username):
     recipient = get_user_by_username(username)
+
     if not recipient:
         raise HTTPError('User not found.', 404)
 
