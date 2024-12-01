@@ -5,22 +5,23 @@ from .db import db
 
 
 def create_app():
-    app = Flask(__name__)
-    app.config.from_pyfile('../config.py')
-    db.init_app(app)
-    socketio.init_app(app)
+    flask_app = Flask(__name__)
+    flask_app.config.from_pyfile('../config.py')
+    db.init_app(flask_app)
+    socketio.init_app(flask_app)
 
-    app.secret_key = app.config['SECRET_KEY']
-    if app.config['ENVIRONMENT'] == 'development':
-        app.debug = True
+    flask_app.secret_key = flask_app.config['SECRET_KEY']
+    if flask_app.config['ENVIRONMENT'] == 'development':
+        flask_app.debug = True
 
+    # pylint: disable=import-outside-toplevel
     from .routes import root_bp, groups, auth, errors
-    app.register_blueprint(root_bp)
-    app.register_blueprint(errors.errors_bp)
-    app.register_blueprint(groups.groups_bp)
-    app.register_blueprint(auth.auth_bp)
+    flask_app.register_blueprint(root_bp)
+    flask_app.register_blueprint(errors.errors_bp)
+    flask_app.register_blueprint(groups.groups_bp)
+    flask_app.register_blueprint(auth.auth_bp)
     register_socket_events()
-    return app
+    return flask_app
 
 
 app = create_app()

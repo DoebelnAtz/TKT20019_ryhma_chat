@@ -17,7 +17,9 @@ def csrf_required(f):
     def decorated_function(*args, **kwargs):
         if request.method == 'GET':
             return f(*args, **kwargs)
-        if not request.form.get('csrf_token') or session.get('csrf_token') != request.form['csrf_token']:
+        if not request.form.get('csrf_token'):
+            raise HTTPError('CSRF token is missing.', 400)
+        if session.get('csrf_token') != request.form['csrf_token']:
             raise HTTPError('Invalid CSRF token.', 403)
         return f(*args, **kwargs)
     return decorated_function

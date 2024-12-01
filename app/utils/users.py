@@ -1,7 +1,6 @@
 from werkzeug.security import generate_password_hash
-from app.db import db
-
 from sqlalchemy import text
+from app.db import db
 
 
 def create_user(username, password):

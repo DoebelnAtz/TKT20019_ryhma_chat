@@ -82,7 +82,7 @@ def get_group_messages(group_id, limit=20):
 
 
 def send_group_message(group_id, content):
-    if (len(content) > MAX_MESSAGE_LENGTH):
+    if len(content) > MAX_MESSAGE_LENGTH:
         raise HTTPError('Message too long.', 400)
     group = get_user_group(group_id)
     if not group:
@@ -117,7 +117,7 @@ def is_group_creator(group_id):
 
 
 def edit_user_group(group_id, name):
-    if (len(name) > MAX_GROUP_NAME_LENGTH):
+    if len(name) > MAX_GROUP_NAME_LENGTH:
         raise HTTPError('Name too long.', 400)
     sql = """
     UPDATE groups SET name = :name 
@@ -129,7 +129,7 @@ def edit_user_group(group_id, name):
 
 
 def create_group(name):
-    if (len(name) > MAX_GROUP_NAME_LENGTH):
+    if len(name) > MAX_GROUP_NAME_LENGTH:
         raise HTTPError('Name too long.', 400)
     sql = "INSERT INTO groups (name, created_by) VALUES (:name, :user_id) RETURNING id"
     result = db.session.execute(

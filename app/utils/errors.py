@@ -1,7 +1,7 @@
 from functools import wraps
+import traceback
 from flask import redirect, url_for, flash
 from app.utils.logger import Logger
-import traceback
 
 logger = Logger(__name__)
 

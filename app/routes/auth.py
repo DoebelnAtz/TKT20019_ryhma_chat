@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from werkzeug.security import check_password_hash
 import secrets
+from werkzeug.security import check_password_hash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from app.db import db
 from app.utils.auth import csrf_required
 from app.utils.users import create_user, get_user_by_username
