@@ -24,23 +24,35 @@
 <input autofocus type="text" name="content" placeholder="Message" onkeydown="handleKeyDown(event)">
 <button onclick="handleSendMessage(event)">Send</button>
 <script type="text/javascript">
-    const chat_messages = {{messages|tojson}};
-    const chat_message_feed = document.getElementById('chat-messages');
+    const chatMessages = {{messages|tojson}};
+    const chatMessageFeed = document.getElementById('chat-messages');
     
     const renderChatMessages = function() {
-        chat_message_feed.innerHTML = '';
-        chat_messages.forEach(message => {
-            const message_element = document.createElement('div');
-            message_element.style.border = '1px solid black';
-            message_element.innerHTML = `
+        chatMessageFeed.innerHTML = '';
+        chatMessages.forEach(message => {
+            const messageElement = document.createElement('div');
+            messageElement.style.border = '1px solid black';
+            messageElement.innerHTML = `
             <p>${message.content}</p>
             <span>${message.created_at}</span>
             <span>${message.username}</span>`;
-            chat_message_feed.appendChild(message_element);
+            chatMessageFeed.appendChild(messageElement);
         });
     }
     renderChatMessages();
     var socket = io();
+
+    function markAsDisconnected() {
+        const sendButton = document.querySelector('button');
+        sendButton.innerHTML = 'Reconnecting...';
+        sendButton.disabled = true;
+    }
+
+    function markAsConnected() {
+        const sendButton = document.querySelector('button');
+        sendButton.innerHTML = 'Send';
+        sendButton.disabled = false;
+    }
 
     function connectWithRetries(retry = 0) {
         if (retry > 5) {
@@ -62,17 +74,19 @@
     });
     socket.on('message', function(data) {
         console.log('received message', data);
-        chat_messages.unshift(data);
+        chatMessages.unshift(data);
         renderChatMessages();
     });
 
     socket.on('disconnect', function() {
         console.log('disconnected');
+        markAsDisconnected();
         connectWithRetries();
     });
 
     socket.on('connect', function() {
         console.log('connected');
+        markAsConnected();
     });
     
 
@@ -81,7 +95,7 @@
             handleSendMessage(event);
         }
     }
-    
+
     const handleSendMessage = function(event) {
         event.preventDefault();
         const message = {
