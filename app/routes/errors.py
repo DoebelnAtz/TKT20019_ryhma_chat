@@ -13,3 +13,8 @@ def error():
     error_message = request.args.get('error_message')
     status = request.args.get('status')
     return render_template('errors/error.html', error_message=error_message, status=status), status
+
+
+@errors_bp.route('/forbidden')
+def forbidden():
+    return render_template('errors/forbidden.html'), 403
