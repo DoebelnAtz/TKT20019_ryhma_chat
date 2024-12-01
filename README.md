@@ -4,11 +4,11 @@ TKT20019
 
 Tämä web-applikaatio antaa käyttäjän lähettää viestejä eri ryhmissä muille käyttäjille. Käyttäjä voi luoda uusia ryhmiä ja kutsua muita käyttäjiä näihin ryhmiin.
 
-## Valipalautus 2:
+## Valipalautus 3:
 
 Sovelluksen kaikki toiminnot on toteutettu ja perus tietoturvahuolet niin kuin CSRF ja SQL-injektio ja salasanan salaaminen on otettu huomioon. Ulkonäköa ei ole vielä hiottu.
 
-## Välipalautus 1:
+## Välipalautus 2:
 
 Sovelluksen ulkonäköä ei ole hiottu, ei ole vielä reaaliaikaista viestintää ja jotkut toiminnot, esim. ryhmästä poistuminen ei ole vielä toteutettu.
 
