@@ -1,8 +1,8 @@
-from functools import wraps
 import traceback
+from functools import wraps
+from flask_socketio import emit
 from flask import redirect, url_for, flash
 from app.utils.logger import Logger
-
 logger = Logger(__name__)
 
 
@@ -41,4 +41,23 @@ def handle_errors(f):
             flash("Something went wrong.")
             logger.error(str(e), traceback.format_exc())
             return redirect(url_for('errors.error', error_message="Something went wrong"))
+    return decorated_function
+
+
+def handle_socket_errors(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        try:
+            return f(*args, **kwargs)
+        except HTTPError as e:
+            logger.error(str(e), traceback.format_exc())
+            if e.status == 500:
+                emit("error", "Something went wrong.", broadcast=True)
+            else:
+                emit("error", str(e), broadcast=True)
+            return None
+        except Exception as e:
+            logger.error(str(e), traceback.format_exc())
+            emit("error", "Something went wrong.", broadcast=True)
+            return None
     return decorated_function
