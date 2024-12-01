@@ -1,6 +1,6 @@
 import secrets
 from werkzeug.security import check_password_hash
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, session
 from app.db import db
 from app.utils.users import create_user, get_user_by_username
 from app.utils.errors import handle_errors
