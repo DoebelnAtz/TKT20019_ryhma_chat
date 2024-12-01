@@ -2,7 +2,7 @@ from flask import session
 from sqlalchemy import text
 from app.utils.errors import HTTPError
 from app.utils.users import get_user_by_username
-from app import db
+from app.db import db
 
 
 def get_user_group(group_id):
@@ -58,18 +58,23 @@ def accept_group_invite(invite_id):
     db.session.commit()
 
 
-def get_group_messages(group_id):
+def get_group_messages(group_id, limit=20):
     sql = """
+    WITH user_accessible_groups AS (
+        SELECT g.id FROM groups g
+        JOIN users_groups ug ON g.id = ug.group_id
+        WHERE ug.user_id = :user_id
+    )
     SELECT m.id, m.content, m.created_at, u.username, u.id as user_id
-    FROM groups g
-    JOIN users_groups ug ON g.id = ug.group_id
-    JOIN users u ON ug.user_id = u.id
-    JOIN messages m ON g.id = m.group_id
-    WHERE g.id = :group_id
-    AND ug.user_id = :user_id
+    FROM user_accessible_groups uag
+    JOIN messages m ON uag.id = m.group_id
+    JOIN users u ON m.sender_id = u.id
+    WHERE uag.id = :group_id
+    ORDER BY m.created_at DESC
+    LIMIT :limit
     """
     result = db.session.execute(
-        text(sql), {"group_id": group_id, "user_id": session['user_id']})
+        text(sql), {"group_id": group_id, "user_id": session['user_id'], "limit": limit})
     return result.fetchall()
 
 
@@ -80,8 +85,9 @@ def send_group_message(group_id, content):
     sql = """
     INSERT INTO messages (content, group_id, sender_id) 
     VALUES (:content, :group_id, :sender_id)
+    RETURNING id, content, created_at
     """
-    db.session.execute(
+    result = db.session.execute(
         text(sql),
         {
             "content": content,
@@ -90,6 +96,15 @@ def send_group_message(group_id, content):
         }
     )
     db.session.commit()
+    created_message = result.fetchone()
+    message = {
+        "id": created_message.id,
+        "content": created_message.content,
+        "created_at": created_message.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+        "username": session['username'],
+        "user_id": session['user_id']
+    }
+    return message
 
 
 def is_group_creator(group_id):

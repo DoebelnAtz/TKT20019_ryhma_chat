@@ -1,17 +1,18 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import check_password_hash
-from app import db
+from app.db import db
 from app.utils.users import create_user, get_user_by_username
 from app.utils.auth import login_required
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
+
 
 @auth_bp.route('/signup', methods=('GET', 'POST'))
 def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        
+
         if not username:
             flash('Username is required.')
         elif not password:
@@ -36,7 +37,7 @@ def login():
         user = get_user_by_username(username)
         error = None
         if user is None:
-            # Generally considered a bad practice to leak information about 
+            # Generally considered a bad practice to leak information about
             # why login failed, but for this app I'll consider it a feature.
             error = 'Incorrect username.'
         elif not check_password_hash(user.password, password):
@@ -48,6 +49,7 @@ def login():
         else:
             flash(error)
     return render_template('auth/login.html')
+
 
 @auth_bp.route('/logout')
 def logout():

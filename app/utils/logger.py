@@ -1,4 +1,4 @@
-from flask import current_app
+import os
 
 
 class Color:
@@ -14,15 +14,15 @@ class Logger:
     def __init__(self, name):
         self.name = name
 
-    def log(self, message):
-        print(f"{Color.bold}{self.name}{Color.reset} | {
-              Color.cyan}LOG{Color.reset}: {message}")
+    def log(self, *args):
+        print(f"{Color.cyan}LOG{Color.reset} | {Color.bold}{
+              self.name}{Color.reset}", *args)
 
-    def debug(self, message):
-        if current_app.config['DEBUG']:
-            print(f"{Color.bold}{self.name}{Color.reset} | {
-                  Color.green}DEBUG{Color.reset}: {message}")
+    def debug(self, *args):
+        if os.environ.get('FLASK_ENV') == 'development':
+            print(f"{Color.green}DEBUG{Color.reset} | {Color.bold}{
+                  self.name}{Color.reset}:", *args)
 
-    def error(self, message):
-        print(f"{Color.bold}{self.name}{Color.reset} | {
-              Color.red}ERROR{Color.reset}: {message}")
+    def error(self, *args):
+        print(f"{Color.red}ERROR{Color.reset} | {Color.bold}{
+              self.name}{Color.reset}:", *args)
