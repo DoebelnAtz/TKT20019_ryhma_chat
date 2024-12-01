@@ -9,11 +9,13 @@
     <label for="name">Name</label>
     <input type="text" name="name" value="{{ group.name }}">
     <input type="submit" value="Save">
+    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
 </form>
 {% if is_creator %}
 <h2>Delete Group</h2>
 <form action="{{ url_for('groups.delete', group_id=group.id) }}" method="post">
     <input type="submit" value="Delete">
+    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
 </form>
 {% endif %}
 <h2>Members</h2>
@@ -29,11 +31,13 @@
     <label for="username">Username</label>
     <input type="text" name="username">
     <input type="submit" value="Invite">
+    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
 </form>
 {% if not is_creator %}
 <h2>Leave Group</h2>
 <form action="{{ url_for('groups.leave', group_id=group.id) }}" method="post">
     <input type="submit" value="Leave">
+    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
 </form>
 {% endif %}
 {% endblock %}

@@ -8,6 +8,7 @@
 <form method="post">
     <label for="name">Name</label>
     <input name="name" id="name" required>
+    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
     <input type="submit" value="Save">
 </form>
 {% endblock %}

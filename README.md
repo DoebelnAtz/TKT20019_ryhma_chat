@@ -4,6 +4,12 @@ TKT20019
 
 Tämä web-applikaatio antaa käyttäjän lähettää viestejä eri ryhmissä muille käyttäjille. Käyttäjä voi luoda uusia ryhmiä ja kutsua muita käyttäjiä näihin ryhmiin.
 
+## Valipalautus 2:
+
+Sovelluksen kaikki toiminnot on toteutettu, vain css on vielä tekemättä.
+
+## Välipalautus 1:
+
 Sovelluksen ulkonäköä ei ole hiottu, ei ole vielä reaaliaikaista viestintää ja jotkut toiminnot, esim. ryhmästä poistuminen ei ole vielä toteutettu.
 
 ## Setup

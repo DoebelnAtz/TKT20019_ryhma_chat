@@ -1,4 +1,4 @@
-from flask_socketio import join_room, send, SocketIOq
+from flask_socketio import join_room, send, SocketIO
 from flask import session
 from app.utils.groups import send_group_message
 from app.utils.logger import Logger

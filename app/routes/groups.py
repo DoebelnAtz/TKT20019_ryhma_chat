@@ -3,7 +3,7 @@ from app.utils.groups import get_user_group, get_group_messages, create_group, a
 from app.utils.groups import edit_user_group, invite_user_to_group, get_group_members
 from app.utils.groups import get_group_invites, is_user_group_creator
 from app.utils.groups import accept_group_invite, leave_user_group, delete_user_group
-from app.utils.auth import login_required
+from app.utils.auth import login_required, csrf_required
 from app.db import db
 
 from app.utils.errors import HTTPError, handle_errors
@@ -14,6 +14,7 @@ groups_bp = Blueprint('groups', __name__)
 @groups_bp.route('/create', methods=('GET', 'POST'))
 @login_required
 @handle_errors
+@csrf_required
 def create():
     if request.method == 'POST':
         name = request.form['name']
@@ -59,6 +60,7 @@ def group(group_id):
 @groups_bp.route("/edit/<int:group_id>", methods=('GET', 'POST'))
 @login_required
 @handle_errors
+@csrf_required
 def edit(group_id):
     if request.method == 'POST':
         name = request.form['name']
@@ -80,6 +82,7 @@ def edit(group_id):
 @groups_bp.route("/edit/<int:group_id>/invite", methods=['POST'])
 @login_required
 @handle_errors
+@csrf_required
 def invite(group_id):
     username = request.form['username']
     invite_user_to_group(group_id, username)
@@ -90,6 +93,7 @@ def invite(group_id):
 @groups_bp.route("/<int:invite_id>/accept_invite", methods=['POST'])
 @login_required
 @handle_errors
+@csrf_required
 def accept_invite(invite_id):
     accept_group_invite(invite_id)
     db.session.commit()
@@ -99,6 +103,7 @@ def accept_invite(invite_id):
 @groups_bp.route("/<int:group_id>/leave", methods=['POST'])
 @login_required
 @handle_errors
+@csrf_required
 def leave(group_id):
     leave_user_group(group_id)
     db.session.commit()
@@ -108,6 +113,7 @@ def leave(group_id):
 @groups_bp.route("/<int:group_id>/delete", methods=['POST'])
 @login_required
 @handle_errors
+@csrf_required
 def delete(group_id):
     delete_user_group(group_id)
     db.session.commit()

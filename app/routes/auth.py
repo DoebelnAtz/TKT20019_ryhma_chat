@@ -1,13 +1,17 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import check_password_hash
+import secrets
 from app.db import db
+from app.utils.auth import csrf_required
 from app.utils.users import create_user, get_user_by_username
-from app.utils.auth import login_required
+from app.utils.errors import handle_errors
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
 @auth_bp.route('/signup', methods=('GET', 'POST'))
+@handle_errors
+@csrf_required
 def signup():
     if request.method == 'POST':
         username = request.form['username']
@@ -30,6 +34,8 @@ def signup():
 
 
 @auth_bp.route('/login', methods=('GET', 'POST'))
+@handle_errors
+@csrf_required
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -45,6 +51,7 @@ def login():
         if error is None:
             session['username'] = user.username
             session['user_id'] = user.id
+            session['csrf_token'] = secrets.token_hex(16)
             return redirect(url_for('root.index'))
         else:
             flash(error)
@@ -52,6 +59,7 @@ def login():
 
 
 @auth_bp.route('/logout')
+@handle_errors
 def logout():
     session.clear()
     return redirect(url_for('auth.login'))
