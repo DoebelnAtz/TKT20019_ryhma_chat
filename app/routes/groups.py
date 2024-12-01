@@ -1,8 +1,7 @@
 from flask import Blueprint, request, render_template, redirect, url_for, session
-from flask_socketio import send
 from app.utils.groups import get_user_group, get_group_messages, create_group, add_user_to_group
 from app.utils.groups import edit_user_group, invite_user_to_group, get_group_members
-from app.utils.groups import send_group_message, get_group_invites, is_user_group_creator
+from app.utils.groups import get_group_invites, is_user_group_creator
 from app.utils.groups import accept_group_invite, leave_user_group, delete_user_group
 from app.utils.auth import login_required
 from app.db import db
@@ -35,6 +34,7 @@ def group(group_id):
     if not user_group:
         raise HTTPError('Group not found.', 404)
     members = get_group_members(group_id)
+
     limit = pages * 20
     messages = get_group_messages(group_id, limit=limit)
     has_more_messages = len(messages) == limit
