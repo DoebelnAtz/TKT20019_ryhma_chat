@@ -40,7 +40,9 @@ def handle_errors(f):
         except Exception as e:
             flash("Something went wrong.")
             logger.error(str(e), traceback.format_exc())
-            return redirect(url_for('errors.error', error_message="Something went wrong", status=500))
+            return redirect(url_for('errors.error',
+                                    error_message="Something went wrong",
+                                    status=500))
     return decorated_function
 
 
