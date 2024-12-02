@@ -50,7 +50,7 @@
   --secondary9: #ccccff;
 }
 
-:root .dark {
+:root.dark {
   --white: #1a1a1a;
   --fg1: #e6e6e6;
   --fg2: #cccccc;

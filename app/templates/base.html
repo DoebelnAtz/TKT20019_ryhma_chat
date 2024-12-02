@@ -1,8 +1,13 @@
 <!doctype html>
-<head class="{{session.theme}}">
+<html lang="en" class="{{session.theme}}">
+
+<head>
   <meta charset="utf-8">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" crossorigin="anonymous"></script>
   <title>{% block title %}{% endblock %}</title>
+  <form action="{{ url_for('root.toggle_theme') }}" method="post">
+    <button id="theme-toggle">Toggle Theme</button>
+  </form>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/input.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -31,3 +36,4 @@
   {% block content %}{% endblock %}
 </section>
 </body>
+</html>
