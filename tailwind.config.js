@@ -10,41 +10,42 @@ module.exports = {
   plugins: [
     plugin(function ({ addBase, theme }) {
       addBase({
-        ".text-head-0": {
-          fontWeight: theme("fontWeight.medium"),
-          fontSize: theme("fontSize.2xl"),
-          lineHeight: theme("lineHeight.7"),
-        },
         ".text-head-1": {
           fontWeight: theme("fontWeight.semibold"),
           fontSize: theme("fontSize.xl"),
           lineHeight: theme("lineHeight.6"),
+          color: theme("colors.fg1"),
           letterSpacing: theme("letterSpacing.tight"),
         },
         ".text-head-2": {
           fontWeight: theme("fontWeight.medium"),
           fontSize: theme("fontSize.base"),
           lineHeight: theme("lineHeight.5"),
+          color: theme("colors.fg2"),
           letterSpacing: theme("letterSpacing.tight"),
         },
         ".text-head-3": {
           fontWeight: theme("fontWeight.semibold"),
           fontSize: theme("fontSize.base"),
+          color: theme("colors.fg2"),
           lineHeight: theme("lineHeight.4"),
         },
         ".text-elem-1": {
           fontWeight: theme("fontWeight.light"),
           fontSize: theme("fontSize.16px"),
+          color: theme("colors.fg2"),
           lineHeight: theme("lineHeight.5_5"),
         },
         ".text-elem-2": {
           fontWeight: theme("fontWeight.medium"),
           fontSize: theme("fontSize.sm"),
+          color: theme("colors.fg2"),
           lineHeight: theme("lineHeight.4"),
         },
         ".text-elem-3": {
           fontWeight: theme("fontWeight.normal"),
           fontSize: theme("fontSize.sm"),
+          color: theme("colors.fg1"),
           lineHeight: theme("lineHeight.4"),
         },
 
@@ -52,6 +53,7 @@ module.exports = {
           fontWeight: theme("fontWeight.medium"),
           fontSize: theme("fontSize.sm"),
           lineHeight: theme("lineHeight.4_5"),
+          color: theme("colors.fg2"),
           letterSpacing: theme("letterSpacing.tight-sm"),
         },
         ".text-body-bold": {
@@ -59,6 +61,7 @@ module.exports = {
           fontSize: theme("fontSize.sm"),
           lineHeight: theme("lineHeight.4_5"),
           letterSpacing: theme("letterSpacing.tight-sm"),
+          color: theme("colors.fg1"),
         },
       });
     }),
@@ -123,6 +126,17 @@ module.exports = {
       secondary7: "var(--secondary7)",
       secondary8: "var(--secondary8)",
       secondary9: "var(--secondary9)",
+
+      tertiary1: "var(--tertiary1)",
+      tertiary2: "var(--tertiary2)",
+      tertiary3: "var(--tertiary3)",
+      tertiary4: "var(--tertiary4)",
+      tertiary5: "var(--tertiary5)",
+      tertiary6: "var(--tertiary6)",
+      tertiary7: "var(--tertiary7)",
+      tertiary8: "var(--tertiary8)",
+      tertiary9: "var(--tertiary9)",
+
       transparent: "transparent",
     },
     letterSpacing: {
