@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  --white: #ffffff;
+  --fg1: #333333;
+  --fg2: #4f4f4f;
+  --fg3: #666666;
+  --fg4: #808080;
+  --fg5: #999999;
+  --fg6: #b3b3b3;
+  --fg7: #cccccc;
+  --fg8: #e6e6e6;
+  --fg9: #f2f2f2;
+
+  --bg1: #1a1a1a;
+  --bg2: #333333;
+  --bg3: #4d4d4d;
+  --bg4: #666666;
+  --bg5: #808080;
+  --bg6: #999999;
+  --bg7: #b3b3b3;
+  --bg8: #cccccc;
+  --bg9: #e6e6e6;
+
+  --primary1: #ff0000;
+  --primary2: #ff1a1a;
+  --primary3: #ff3333;
+  --primary4: #ff4d4d;
+  --primary5: #ff6666;
+  --primary6: #ff8080;
+  --primary7: #ff9999;
+  --primary8: #ffb3b3;
+  --primary9: #ffcccc;
+
+  --secondary1: #0000ff;
+  --secondary2: #1a1aff;
+  --secondary3: #3333ff;
+  --secondary4: #4d4dff;
+  --secondary5: #6666ff;
+  --secondary6: #8080ff;
+  --secondary7: #9999ff;
+  --secondary8: #b3b3ff;
+  --secondary9: #ccccff;
+}
+
+:root .dark {
+  --white: #1a1a1a;
+  --fg1: #e6e6e6;
+  --fg2: #cccccc;
+  --fg3: #b3b3b3;
+  --fg4: #999999;
+  --fg5: #808080;
+  --fg6: #666666;
+  --fg7: #4d4d4d;
+  --fg8: #333333;
+  --fg9: #1a1a1a;
+
+  --bg1: #f2f2f2;
+  --bg2: #e6e6e6;
+  --bg3: #cccccc;
+  --bg4: #b3b3b3;
+  --bg5: #999999;
+  --bg6: #808080;
+  --bg7: #666666;
+  --bg8: #4d4d4d;
+  --bg9: #333333;
+
+  --primary1: #ffcccc;
+  --primary2: #ffb3b3;
+  --primary3: #ff9999;
+  --primary4: #ff8080;
+  --primary5: #ff6666;
+  --primary6: #ff4d4d;
+  --primary7: #ff3333;
+  --primary8: #ff1a1a;
+  --primary9: #ff0000;
+
+  --secondary1: #ccccff;
+  --secondary2: #b3b3ff;
+  --secondary3: #9999ff;
+  --secondary4: #8080ff;
+  --secondary5: #6666ff;
+  --secondary6: #4d4dff;
+  --secondary7: #3333ff;
+  --secondary8: #1a1aff;
+  --secondary9: #0000ff;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+}
