@@ -17,7 +17,6 @@ def index():
 
 
 @root_bp.route('/toggle_theme', methods=['POST'])
-@login_required
 @handle_errors
 def toggle_theme():
     session['theme'] = 'dark' if session.get('theme') == 'light' else 'light'

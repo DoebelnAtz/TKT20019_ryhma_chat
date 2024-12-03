@@ -5,17 +5,19 @@
   <meta charset="utf-8">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" crossorigin="anonymous"></script>
   <title>{% block title %}{% endblock %}</title>
-  <form action="{{ url_for('root.toggle_theme') }}" method="post">
-    <button id="theme-toggle">Toggle Theme</button>
-  </form>
+ 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/input.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body class="bg-bg1">
-<nav>
+<nav class="flex gap-8 px-3 items-center w-full h-12 bg-bg3">
   <h1>Chat</h1>
-  <ul>
+  <a href="{{ url_for('root.index') }}">Home</a>
+  <ul class="flex gap-4 ml-auto">
+    <form action="{{ url_for('root.toggle_theme') }}" method="post">
+      <button id="theme-toggle">Toggle Theme</button>
+    </form>
     {% if session.username %}
     <p>You are logged in as {{ session.username }}</p>
       <a href="{{ url_for('auth.logout') }}">Log Out</a>
@@ -24,15 +26,13 @@
       <li><a href="{{ url_for('auth.login') }}">Log In</a>
     {% endif %}
   </ul>
-  <a href="{{ url_for('root.index') }}">Home</a>
 </nav>
-<section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>
+<section class="w-full h-full flex">
+  <div class="flash absolute top-14 right-1">
   {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
+    <div class="bg-bg3 border border-fg3 rounded-md px-2 py-1">{{ message }}</div>
   {% endfor %}
+</div>
   {% block content %}{% endblock %}
 </section>
 </body>

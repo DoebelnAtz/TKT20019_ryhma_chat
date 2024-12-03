@@ -21,6 +21,17 @@
   a {
     @apply text-elem-3;
   }
+  button {
+    @apply text-elem-3 border border-bg9 rounded-md px-2 py-1;
+  }
+
+  input {
+    @apply border border-bg9 rounded-md px-2 py-1 bg-transparent;
+  }
+
+  label {
+    @apply text-elem-3 text-fg3;
+  }
 }
 
 :root {
@@ -40,13 +51,13 @@
 
   --bg1: hsl(192, 100%, 98%);
   --bg2: hsl(192, 100%, 94%);
-  --bg3: hsl(192, 100%, 92%);
-  --bg4: hsl(192, 100%, 90%);
-  --bg5: hsl(192, 100%, 88%);
-  --bg6: hsl(192, 100%, 86%);
-  --bg7: hsl(192, 100%, 84%);
-  --bg8: hsl(192, 100%, 82%);
-  --bg9: hsl(192, 100%, 80%);
+  --bg3: hsl(192, 95%, 92%);
+  --bg4: hsl(192, 95%, 90%);
+  --bg5: hsl(192, 90%, 88%);
+  --bg6: hsl(192, 90%, 86%);
+  --bg7: hsl(192, 90%, 84%);
+  --bg8: hsl(192, 90%, 82%);
+  --bg9: hsl(192, 90%, 80%);
 
   --primary1: hsl(342, 96%, 96%);
   --primary2: hsl(342, 96%, 84%);
