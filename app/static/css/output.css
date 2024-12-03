@@ -615,6 +615,7 @@ a{
   font-size: 0.875rem;
   color: var(--fg1);
   line-height: 1rem;
+  text-decoration-line: underline;
 }
 
 button{
@@ -622,9 +623,10 @@ button{
   font-size: 0.875rem;
   color: var(--fg1);
   line-height: 1rem;
+  height: 2rem;
   border-radius: 0.375rem;
   border-width: 1px;
-  border-color: var(--bg9);
+  border-color: var(--fg8);
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   padding-top: 0.25rem;
@@ -632,9 +634,10 @@ button{
 }
 
 input{
+  height: 2rem;
   border-radius: 0.375rem;
   border-width: 1px;
-  border-color: var(--bg9);
+  border-color: var(--fg8);
   background-color: transparent;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -647,6 +650,9 @@ label{
   font-size: 0.875rem;
   color: var(--fg1);
   line-height: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   color: var(--fg3);
 }
 
@@ -686,6 +692,10 @@ label{
   margin-left: auto;
 }
 
+.mt-4{
+  margin-top: 1rem;
+}
+
 .block{
   display: block;
 }
@@ -710,12 +720,24 @@ label{
   height: 3rem;
 }
 
+.h-8{
+  height: 2rem;
+}
+
 .h-full{
   height: 100%;
 }
 
 .w-full{
   width: 100%;
+}
+
+.min-w-\[240px\]{
+  min-width: 240px;
+}
+
+.flex-grow{
+  flex-grow: 1;
 }
 
 .border-collapse{
@@ -754,6 +776,10 @@ label{
   gap: 2rem;
 }
 
+.overflow-hidden{
+  overflow: hidden;
+}
+
 .rounded-lg{
   border-radius: 0.5rem;
 }
@@ -774,6 +800,10 @@ label{
   border-color: var(--bg6);
 }
 
+.border-bg8{
+  border-color: var(--bg8);
+}
+
 .border-bg9{
   border-color: var(--bg9);
 }
@@ -790,6 +820,10 @@ label{
   border-color: var(--fg6);
 }
 
+.border-fg8{
+  border-color: var(--fg8);
+}
+
 .bg-bg1{
   background-color: var(--bg1);
 }
@@ -800,6 +834,34 @@ label{
 
 .bg-bg9{
   background-color: var(--bg9);
+}
+
+.bg-primary2{
+  background-color: var(--primary2);
+}
+
+.bg-primary3{
+  background-color: var(--primary3);
+}
+
+.bg-primary5{
+  background-color: var(--primary5);
+}
+
+.bg-secondary3{
+  background-color: var(--secondary3);
+}
+
+.bg-tertiary1{
+  background-color: var(--tertiary1);
+}
+
+.bg-tertiary2{
+  background-color: var(--tertiary2);
+}
+
+.bg-tertiary3{
+  background-color: var(--tertiary3);
 }
 
 .p-4{
@@ -821,9 +883,19 @@ label{
   padding-right: 1.5rem;
 }
 
+.px-8{
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
 .py-1{
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
+}
+
+.py-4{
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .text-xs{
@@ -835,8 +907,28 @@ label{
   color: var(--bg9);
 }
 
+.text-fg3{
+  color: var(--fg3);
+}
+
 .text-fg9{
   color: var(--fg9);
+}
+
+.text-tertiary4{
+  color: var(--tertiary4);
+}
+
+.text-tertiary5{
+  color: var(--tertiary5);
+}
+
+.text-tertiary7{
+  color: var(--tertiary7);
+}
+
+.text-tertiary6{
+  color: var(--tertiary6);
 }
 
 .underline{
@@ -852,15 +944,15 @@ label{
   height: 100%;
   width: 100%;
   --white: #ffffff;
-  --fg1: hsl(110, 71%, 2%);
-  --fg2: hsl(110, 71%, 4%);
-  --fg3: hsl(110, 71%, 6%);
-  --fg4: hsl(110, 71%, 8%);
-  --fg5: hsl(110, 71%, 10%);
-  --fg6: hsl(110, 71%, 12%);
-  --fg7: hsl(110, 71%, 14%);
-  --fg8: hsl(110, 71%, 16%);
-  --fg9: hsl(110, 71%, 18%);
+  --fg1: hsl(270, 3%, 4%);
+  --fg2: hsl(270, 3%, 10%);
+  --fg3: hsl(270, 3%, 16%);
+  --fg4: hsl(270, 3%, 22%);
+  --fg5: hsl(270, 3%, 28%);
+  --fg6: hsl(270, 3%, 34%);
+  --fg7: hsl(270, 3%, 40%);
+  --fg8: hsl(270, 3%, 46%);
+  --fg9: hsl(270, 3%, 52%);
   --bg1: hsl(192, 100%, 98%);
   --bg2: hsl(192, 100%, 94%);
   --bg3: hsl(192, 95%, 92%);
@@ -870,15 +962,15 @@ label{
   --bg7: hsl(192, 90%, 84%);
   --bg8: hsl(192, 90%, 82%);
   --bg9: hsl(192, 90%, 80%);
-  --primary1: hsl(342, 96%, 96%);
-  --primary2: hsl(342, 96%, 84%);
-  --primary3: hsl(342, 96%, 72%);
-  --primary4: hsl(342, 96%, 60%);
-  --primary5: hsl(342, 96%, 48%);
-  --primary6: hsl(342, 96%, 36%);
-  --primary7: hsl(342, 96%, 24%);
-  --primary8: hsl(342, 96%, 12%);
-  --primary9: hsl(342, 96%, 0%);
+  --primary1: hsl(154, 14%, 96%);
+  --primary2: hsl(154, 14%, 84%);
+  --primary3: hsl(154, 14%, 72%);
+  --primary4: hsl(154, 14%, 60%);
+  --primary5: hsl(154, 14%, 48%);
+  --primary6: hsl(154, 14%, 36%);
+  --primary7: hsl(154, 14%, 24%);
+  --primary8: hsl(154, 14%, 12%);
+  --primary9: hsl(154, 14%, 0%);
   --secondary1: hsl(228, 38%, 96%);
   --secondary2: hsl(228, 38%, 84%);
   --secondary3: hsl(228, 38%, 72%);
@@ -888,29 +980,29 @@ label{
   --secondary7: hsl(228, 38%, 24%);
   --secondary8: hsl(228, 38%, 12%);
   --secondary9: hsl(228, 38%, 0%);
-  --tertiary1: hsl(154, 14%, 96%);
-  --tertiary2: hsl(154, 14%, 84%);
-  --tertiary3: hsl(154, 14%, 72%);
-  --tertiary4: hsl(154, 14%, 60%);
-  --tertiary5: hsl(154, 14%, 48%);
-  --tertiary6: hsl(154, 14%, 36%);
-  --tertiary7: hsl(154, 14%, 24%);
-  --tertiary8: hsl(154, 14%, 12%);
-  --tertiary9: hsl(154, 14%, 0%);
+  --tertiary1: hsl(342, 96%, 96%);
+  --tertiary2: hsl(342, 96%, 84%);
+  --tertiary3: hsl(342, 96%, 72%);
+  --tertiary4: hsl(342, 96%, 60%);
+  --tertiary5: hsl(342, 96%, 48%);
+  --tertiary6: hsl(342, 96%, 36%);
+  --tertiary7: hsl(342, 96%, 24%);
+  --tertiary8: hsl(342, 96%, 12%);
+  --tertiary9: hsl(342, 96%, 0%);
 }
 
 :root.dark {
   --white: #1a1a1a;
-  --fg1: hsl(110, 71%, 98%);
-  --fg2: hsl(110, 71%, 94%);
-  --fg3: hsl(110, 71%, 92%);
-  --fg4: hsl(110, 71%, 90%);
-  --fg5: hsl(110, 71%, 88%);
-  --fg6: hsl(110, 71%, 86%);
-  --fg7: hsl(110, 71%, 84%);
-  --fg8: hsl(110, 71%, 82%);
-  --fg9: hsl(110, 71%, 80%);
-  --bg1: hsl(192, 100%, 2%);
+  --fg1: hsl(270, 3%, 96%);
+  --fg2: hsl(270, 3%, 92%);
+  --fg3: hsl(270, 3%, 88%);
+  --fg4: hsl(270, 3%, 84%);
+  --fg5: hsl(270, 3%, 80%);
+  --fg6: hsl(270, 3%, 76%);
+  --fg7: hsl(270, 3%, 72%);
+  --fg8: hsl(270, 3%, 68%);
+  --fg9: hsl(270, 3%, 80%);
+  --bg1: hsl(192, 100%, 3%);
   --bg2: hsl(192, 100%, 6%);
   --bg3: hsl(192, 100%, 8%);
   --bg4: hsl(192, 100%, 10%);
@@ -919,15 +1011,15 @@ label{
   --bg7: hsl(192, 100%, 16%);
   --bg8: hsl(192, 100%, 18%);
   --bg9: hsl(192, 100%, 20%);
-  --primary1: hsl(342, 96%, 96%);
-  --primary2: hsl(342, 96%, 84%);
-  --primary3: hsl(342, 96%, 72%);
-  --primary4: hsl(342, 96%, 60%);
-  --primary5: hsl(342, 96%, 48%);
-  --primary6: hsl(342, 96%, 36%);
-  --primary7: hsl(342, 96%, 24%);
-  --primary8: hsl(342, 96%, 12%);
-  --primary9: hsl(342, 96%, 0%);
+  --primary1: hsl(154, 14%, 0%);
+  --primary2: hsl(154, 14%, 12%);
+  --primary3: hsl(154, 14%, 24%);
+  --primary4: hsl(154, 14%, 36%);
+  --primary5: hsl(154, 14%, 48%);
+  --primary6: hsl(154, 14%, 60%);
+  --primary7: hsl(154, 14%, 72%);
+  --primary8: hsl(154, 14%, 84%);
+  --primary9: hsl(154, 14%, 96%);
   --secondary1: hsl(228, 38%, 96%);
   --secondary2: hsl(228, 38%, 84%);
   --secondary3: hsl(228, 38%, 72%);
@@ -937,15 +1029,15 @@ label{
   --secondary7: hsl(228, 38%, 24%);
   --secondary8: hsl(228, 38%, 12%);
   --secondary9: hsl(228, 38%, 0%);
-  --tertiary1: hsl(154, 14%, 96%);
-  --tertiary2: hsl(154, 14%, 84%);
-  --tertiary3: hsl(154, 14%, 72%);
-  --tertiary4: hsl(154, 14%, 60%);
-  --tertiary5: hsl(154, 14%, 48%);
-  --tertiary6: hsl(154, 14%, 36%);
-  --tertiary7: hsl(154, 14%, 24%);
-  --tertiary8: hsl(154, 14%, 12%);
-  --tertiary9: hsl(154, 14%, 0%);
+  --tertiary1: hsl(342, 66%, 0%);
+  --tertiary2: hsl(342, 66%, 12%);
+  --tertiary3: hsl(342, 66%, 24%);
+  --tertiary4: hsl(342, 66%, 36%);
+  --tertiary5: hsl(342, 66%, 48%);
+  --tertiary6: hsl(342, 66%, 60%);
+  --tertiary7: hsl(342, 66%, 72%);
+  --tertiary8: hsl(342, 66%, 84%);
+  --tertiary9: hsl(342, 66%, 96%);
 }
 
 body {

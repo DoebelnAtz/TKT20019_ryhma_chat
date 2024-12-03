@@ -12,6 +12,17 @@ def login_required(f):
     return decorated_function
 
 
+def negate_login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if request.method != 'GET':
+            return f(*args, **kwargs)
+        if session.get('user_id') is not None:
+            return redirect(url_for('root.index'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 def csrf_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
