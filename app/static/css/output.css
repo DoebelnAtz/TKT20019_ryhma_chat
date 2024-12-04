@@ -656,6 +656,25 @@ label{
   color: var(--fg3);
 }
 
+.group-card{
+  border-radius: 0.375rem;
+  border-width: 1px;
+  border-color: var(--primary4);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+#view-container{
+  margin: 1rem;
+  display: flex;
+  height: 100%;
+  flex-grow: 1;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
 .visible{
   visibility: visible;
 }
@@ -686,6 +705,16 @@ label{
 
 .m-auto{
   margin: auto;
+}
+
+.mx-4{
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.my-3{
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .ml-auto{
@@ -728,6 +757,22 @@ label{
   height: 100%;
 }
 
+.h-6{
+  height: 1.5rem;
+}
+
+.w-60{
+  width: 15rem;
+}
+
+.w-80{
+  width: 20rem;
+}
+
+.w-96{
+  width: 24rem;
+}
+
 .w-full{
   width: 100%;
 }
@@ -736,7 +781,23 @@ label{
   min-width: 240px;
 }
 
+.max-w-\[400px\]{
+  max-width: 400px;
+}
+
+.max-w-screen-md{
+  max-width: 768px;
+}
+
+.max-w-screen-sm{
+  max-width: 640px;
+}
+
 .flex-grow{
+  flex-grow: 1;
+}
+
+.grow{
   flex-grow: 1;
 }
 
@@ -776,8 +837,24 @@ label{
   gap: 2rem;
 }
 
+.gap-3{
+  gap: 0.75rem;
+}
+
+.gap-6{
+  gap: 1.5rem;
+}
+
+.overflow-auto{
+  overflow: auto;
+}
+
 .overflow-hidden{
   overflow: hidden;
+}
+
+.overflow-y-auto{
+  overflow-y: auto;
 }
 
 .rounded-lg{
@@ -790,6 +867,14 @@ label{
 
 .border{
   border-width: 1px;
+}
+
+.border-b{
+  border-bottom-width: 1px;
+}
+
+.border-r{
+  border-right-width: 1px;
 }
 
 .border-bg3{
@@ -824,8 +909,20 @@ label{
   border-color: var(--fg8);
 }
 
+.border-primary4{
+  border-color: var(--primary4);
+}
+
+.border-primary6{
+  border-color: var(--primary6);
+}
+
 .bg-bg1{
   background-color: var(--bg1);
+}
+
+.bg-bg2{
+  background-color: var(--bg2);
 }
 
 .bg-bg3{
@@ -834,6 +931,10 @@ label{
 
 .bg-bg9{
   background-color: var(--bg9);
+}
+
+.bg-primary1{
+  background-color: var(--primary1);
 }
 
 .bg-primary2{
@@ -878,6 +979,11 @@ label{
   padding-right: 0.75rem;
 }
 
+.px-4{
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .px-6{
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -893,9 +999,19 @@ label{
   padding-bottom: 0.25rem;
 }
 
+.py-3{
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
 .py-4{
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.py-5{
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 .text-xs{
@@ -923,12 +1039,12 @@ label{
   color: var(--tertiary5);
 }
 
-.text-tertiary7{
-  color: var(--tertiary7);
-}
-
 .text-tertiary6{
   color: var(--tertiary6);
+}
+
+.text-tertiary7{
+  color: var(--tertiary7);
 }
 
 .underline{

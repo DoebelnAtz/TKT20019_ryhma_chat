@@ -1,9 +1,10 @@
-{% extends 'base.html' %} {% block header %}
-<h1>{% block title %}{% endblock %}</h1>
-{% endblock %} {% block content %}
-<div class="flex flex-col gap-4 m-auto border border-fg8 rounded-lg px-8 py-4">
-    <form method="post" class="flex flex-col gap-4 min-w-[240px]">
-        {% block form_content %}{% endblock %}
-    </form>
+{% extends 'base.html' %} {% block content %}
+<div class="m-auto flex flex-col gap-4">
+    <h1>{% block auth_title %}{% endblock %}</h1>
+    <div class="flex flex-col gap-4 border border-fg8 rounded-lg px-8 py-4">
+        <form method="post" class="flex flex-col gap-4 min-w-[240px]">
+            {% block form_content %}{% endblock %}
+        </form>
+    </div>
 </div>
 {% endblock %}

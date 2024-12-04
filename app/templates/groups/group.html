@@ -1,28 +1,28 @@
-{% extends "base.html" %}
-
-{% block header %}
-<div>
-
+{% extends "groups/group-base.html" %}
+{% block view_header %}
     <h1>{{ group.name }}</h1>
     <div>
         {% for member in members %}
         <span>{{ member.username }},</span>
         {% endfor %}
     </div>
-</div>
-{% if is_user_group_creator %}
-<a href="{{ url_for('groups.edit', group_id=group.id) }}">Edit</a>
+    {% if is_user_group_creator %}
+<a class="ml-auto" href="{{ url_for('groups.edit', group_id=group.id) }}">Edit</a>
 {% endif %}
 {% endblock %}
+{% block group_content %}
+<div id="view-container">
 
-{% block content %}
+
 {% if has_more_messages %}
 <a href="{{ url_for('groups.group', group_id=group.id, pages=pages + 1) }}">Get more messages</a>
 {% endif %}
 <div id="chat-messages" style="display: flex; max-height: 62vh; overflow-y: auto; flex-direction: column-reverse; gap: 10px;">
 </div>
 <input autofocus type="text" name="content" placeholder="Message" onkeydown="handleKeyDown(event)">
-<button onclick="handleSendMessage(event)">Send</button>
+<button id="send-message-button" onclick="handleSendMessage(event)">Send</button>
+</div>
+
 <script type="text/javascript">
     const chatMessages = {{messages|tojson}};
     const chatMessageFeed = document.getElementById('chat-messages');
@@ -43,7 +43,7 @@
     var socket = io();
 
     function markAsDisconnected() {
-        const sendButton = document.querySelector('button');
+        const sendButton = document.querySelector('#');
         sendButton.innerHTML = 'Reconnecting...';
         sendButton.disabled = true;
     }
