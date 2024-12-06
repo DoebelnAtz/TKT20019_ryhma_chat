@@ -1,4 +1,14 @@
 {% extends 'groups/group-base.html' %} {% block group_content %}
+<div id="view-container">
+    <div class="flex flex-col gap-4">
 
-
+        <h1>Welcome to Chat</h1>
+        <p>You haven't created or joined any groups yet.</p>
+        <a href="{{ url_for('groups.create') }}">
+            <button>
+                Create a group
+            </button>
+        </a>
+    </div>
+</div>
 {% endblock %}

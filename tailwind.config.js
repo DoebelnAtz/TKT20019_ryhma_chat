@@ -2,11 +2,11 @@ const plugin = require("tailwindcss/plugin");
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
-    content: [
-        "./app/templates/**/*.html",
-        "./app/static/**/*.{js,css}"
-        ],  
-        darkMode: "selector",
+  content: [
+    "./app/templates/**/*.html",
+    "./app/static/**/*.{js,css}"
+  ],
+  darkMode: "selector",
   plugins: [
     plugin(function ({ addBase, theme }) {
       addBase({
@@ -96,7 +96,7 @@ module.exports = {
       fg7: "var(--fg7)",
       fg8: "var(--fg8)",
       fg9: "var(--fg9)",
-      
+
       bg1: "var(--bg1)",
       bg2: "var(--bg2)",
       bg3: "var(--bg3)",
@@ -185,4 +185,4 @@ module.exports = {
       },
     },
   },
-  }
+}

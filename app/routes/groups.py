@@ -7,7 +7,7 @@ from app.utils.groups import get_sidebar_data
 from app.utils.auth import login_required, csrf_required
 from app.db import db
 from app.utils.errors import HTTPError, handle_errors
-
+from app.utils.datetime import time_ago
 groups_bp = Blueprint('groups', __name__)
 
 
@@ -18,10 +18,10 @@ groups_bp = Blueprint('groups', __name__)
 def create():
     if request.method == 'POST':
         name = request.form['name']
-        created_group = create_group(name)
-        add_user_to_group(created_group)
+        created_group_id = create_group(name)
+        add_user_to_group(created_group_id)
         db.session.commit()
-        return redirect(url_for('root.index'))
+        return redirect(url_for('groups.edit', group_id=created_group_id))
     else:
         user_invites, user_groups = get_sidebar_data()
         return render_template('groups/create.html', user_invites=user_invites, user_groups=user_groups)
@@ -37,14 +37,14 @@ def group(group_id):
         raise HTTPError('Group not found.', 404)
     members = get_group_members(group_id)
 
-    limit = pages * 20
+    limit = pages * 30
     messages = get_group_messages(group_id, limit=limit)
     has_more_messages = len(messages) == limit
     user_invites, user_groups = get_sidebar_data()
     messages_serializable = [{
         'content': message.content,
         'id': message.id,
-        'created_at': message.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+        'created_at': time_ago(message.created_at),
         'username': message.username,
         'user_id': message.user_id
     } for message in messages]
@@ -66,6 +66,7 @@ def group(group_id):
 @handle_errors
 @csrf_required
 def edit(group_id):
+    raise HTTPError('Not implemented.', 501)
     if request.method == 'POST':
         name = request.form['name']
         edit_user_group(group_id, name)

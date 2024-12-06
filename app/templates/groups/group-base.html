@@ -1,13 +1,11 @@
 {% extends 'base.html' %} {% block content %}
-<div class="w-full h-full flex">
-    <div class="w-60 h-full bg-primary2 px-4 py-3 flex flex-col gap-6 border-r border-primary4">
+    <div class="w-60 h-full bg-primary2 px-4 py-3 flex flex-col gap-6 border-r overflow-y-auto border-primary4">
         {% if user_invites|length > 0 %}
         <div class="flex flex-col gap-4">
             <h2>Invites</h2>
             <ul>
                 {% for invite in user_invites %}
                 <li class="group-card flex flex-col justify-between gap-3">
-                
                     <span class="text-head3">{{invite.sender_username}} invited you to join <strong>{{ invite.name }}</strong></span>
                     <form class="flex justify-between" action="{{ url_for('groups.accept_invite', invite_id=invite.id) }}" method="post">
                         <button type="submit" name="decision" class="h-6 text-elem-3 button" value="true">Accept</button>
@@ -23,18 +21,21 @@
             <h2>Groups</h2>
             <ul class="flex flex-col gap-2">
                 {% for group in user_groups %}
-                <li class="group-card flex justify-between items-center">
-                    <a class="text-head3" href="{{ url_for('groups.group', group_id=group.id) }}">{{ group.name }}</a>
-                </li>
+                <a href="{{ url_for('groups.group', group_id=group.id) }}">
+
+                    <li class="group-card flex justify-between items-center">
+                        <span class="text-head3 line-clamp-1">{{ group.name }}</span>
+                    </li>
+                </a>
                 {% endfor %}
                 <li class="group-card  flex justify-between items-center"><a href="{{ url_for('groups.create') }}">+ Create Group</a>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="flex-grow  h-full overflow-hidden">
+    <div class="flex grow h-full overflow-hidden">
        
         {% block group_content %}{% endblock %}
     </div>
-</div>
+
 {% endblock %}

@@ -32,12 +32,68 @@
   label {
     @apply text-elem-3 text-fg3 flex flex-col gap-1;
   }
+}
+
+@layer utilities {
+  .message {
+    /* @apply border border-primary4 rounded-md px-4 py-2 max-w-sm; */
+  }
+
+  .content {
+    @apply border border-primary4 rounded-md px-4 py-2 max-w-sm;
+  }
+  .sender {
+    @apply ml-auto;
+  }
+  .recipient {
+    @apply mr-auto;
+  }
+  .recipient .content {
+    @apply bg-secondary2;
+  }
+
+  .sender .content {
+    @apply bg-primary2;
+  }
+
+  .sender .username {
+    @apply w-fit ml-auto;
+  }
+
+  .recipient .username {
+    @apply w-fit mr-auto;
+  }
+
+  .sender .timestamp {
+    @apply mr-auto;
+  }
+
+  .recipient .timestamp {
+    @apply ml-auto;
+  }
+
+  .timestamp span {
+    @apply text-elem-3 text-2xs;
+  }
+
+  .sender .timestamp span {
+    @apply text-fg8;
+  }
+
+  .recipient .timestamp span {
+    @apply text-fg8;
+  }
+
+  .username span {
+    @apply text-elem-3 text-fg3;
+  }
 
   .group-card {
     @apply border border-primary4 rounded-md px-4 py-2;
   }
+
   #view-container {
-    @apply flex flex-col h-full grow overflow-y-auto m-4;
+    @apply flex flex-col grow overflow-y-hidden p-6;
   }
 }
 
@@ -95,6 +151,7 @@
   --tertiary7: hsl(342, 96%, 24%);
   --tertiary8: hsl(342, 96%, 12%);
   --tertiary9: hsl(342, 96%, 0%);
+  background-color: var(--bg1);
 }
 
 :root.dark {
@@ -129,25 +186,26 @@
   --primary8: hsl(154, 14%, 84%);
   --primary9: hsl(154, 14%, 96%);
 
-  --secondary1: hsl(228, 38%, 96%);
-  --secondary2: hsl(228, 38%, 84%);
-  --secondary3: hsl(228, 38%, 72%);
-  --secondary4: hsl(228, 38%, 60%);
+  --secondary1: hsl(228, 38%, 0%);
+  --secondary2: hsl(228, 38%, 12%);
+  --secondary3: hsl(228, 38%, 24%);
+  --secondary4: hsl(228, 38%, 36%);
   --secondary5: hsl(228, 38%, 48%);
-  --secondary6: hsl(228, 38%, 36%);
-  --secondary7: hsl(228, 38%, 24%);
-  --secondary8: hsl(228, 38%, 12%);
-  --secondary9: hsl(228, 38%, 0%);
+  --secondary6: hsl(228, 38%, 60%);
+  --secondary7: hsl(228, 38%, 72%);
+  --secondary8: hsl(228, 38%, 84%);
+  --secondary9: hsl(228, 38%, 96%);
 
-  --tertiary1: hsl(342, 66%, 0%);
-  --tertiary2: hsl(342, 66%, 12%);
-  --tertiary3: hsl(342, 66%, 24%);
-  --tertiary4: hsl(342, 66%, 36%);
-  --tertiary5: hsl(342, 66%, 48%);
-  --tertiary6: hsl(342, 66%, 60%);
-  --tertiary7: hsl(342, 66%, 72%);
-  --tertiary8: hsl(342, 66%, 84%);
-  --tertiary9: hsl(342, 66%, 96%);
+  --tertiary1: hsl(342, 56%, 4%);
+  --tertiary2: hsl(342, 56%, 12%);
+  --tertiary3: hsl(342, 56%, 20%);
+  --tertiary4: hsl(342, 56%, 28%);
+  --tertiary5: hsl(342, 56%, 36%);
+  --tertiary6: hsl(342, 56%, 44%);
+  --tertiary7: hsl(342, 56%, 52%);
+  --tertiary8: hsl(342, 56%, 68%);
+  --tertiary9: hsl(342, 56%, 80%);
+  background-color: var(--bg1);
 }
 
 body {
