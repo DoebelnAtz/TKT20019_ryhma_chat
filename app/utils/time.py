@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import datetime as dt
 
 
 def time_ago(timestamp_tz):
-    now = datetime.utcnow().replace(tzinfo=timestamp_tz.tzinfo)
+    now = dt.utcnow().replace(tzinfo=timestamp_tz.tzinfo)
     diff = now - timestamp_tz
 
     if diff.days > 365:

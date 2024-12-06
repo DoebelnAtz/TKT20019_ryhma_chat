@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for, session
-from app.utils.groups import decline_group_invite, get_user_group, get_group_messages, create_group, add_user_to_group
+from app.utils.groups import decline_group_invite, get_user_group, get_group_messages
+from app.utils.groups import create_group, add_user_to_group
 from app.utils.groups import edit_user_group, invite_user_to_group, get_group_members
 from app.utils.groups import get_group_invites, is_user_group_creator
 from app.utils.groups import accept_group_invite, leave_user_group, delete_user_group
@@ -7,7 +8,7 @@ from app.utils.groups import get_sidebar_data
 from app.utils.auth import login_required, csrf_required
 from app.db import db
 from app.utils.errors import HTTPError, handle_errors
-from app.utils.datetime import time_ago
+from app.utils.time import time_ago
 groups_bp = Blueprint('groups', __name__)
 
 
@@ -24,7 +25,9 @@ def create():
         return redirect(url_for('groups.edit', group_id=created_group_id))
     else:
         user_invites, user_groups = get_sidebar_data()
-        return render_template('groups/create.html', user_invites=user_invites, user_groups=user_groups)
+        return render_template('groups/create.html',
+                               user_invites=user_invites,
+                               user_groups=user_groups)
 
 
 @groups_bp.route("/<int:group_id>", methods=['GET'])
@@ -66,7 +69,6 @@ def group(group_id):
 @handle_errors
 @csrf_required
 def edit(group_id):
-    raise HTTPError('Not implemented.', 501)
     if request.method == 'POST':
         name = request.form['name']
         edit_user_group(group_id, name)
