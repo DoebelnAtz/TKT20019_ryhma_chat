@@ -1,57 +1,85 @@
-{% extends "base.html" %}
+{% extends "groups/group-base.html" %}
 
-{% block header %}
-<div>
+{% block group_content %}
+<div id="view-container" class="gap-6">
+    <div class="flex gap-4 justify-between items-center">
 
-    <h1>{{ group.name }}</h1>
-    <div>
-        {% for member in members %}
-        <span>{{ member.username }},</span>
-        {% endfor %}
+        <h1>{{ group.name }}</h1>
+        <div>
+            {% for member in members %}
+            <span>{{ member.username }}{% if not loop.last %},{% endif %}</span>
+            {% endfor %}
+        </div>
+        {% if is_user_group_creator %}
+        <a class="ml-auto" href="{{ url_for('groups.edit', group_id=group.id) }}">Edit Group</a>
+        {% else %}
+        <a class="ml-auto" href="{{ url_for('groups.leave', group_id=group.id) }}">Leave Group</a>
+        {% endif %}
     </div>
-</div>
-{% if is_user_group_creator %}
-<a href="{{ url_for('groups.edit', group_id=group.id) }}">Edit</a>
-{% endif %}
-{% endblock %}
 
-{% block content %}
-{% if has_more_messages %}
-<a href="{{ url_for('groups.group', group_id=group.id, pages=pages + 1) }}">Get more messages</a>
+<div id="chat-container" class="flex max-w-screen-lg flex-col flex-1 overflow-y-auto border border-primary4 rounded-md px-4">
+    {% if has_more_messages %}
+<a class="mx-auto h-12 my-2" href="{{ url_for('groups.group', group_id=group.id, pages=pages + 1) }}">Get more messages</a>
 {% endif %}
-<div id="chat-messages" style="display: flex; max-height: 62vh; overflow-y: auto; flex-direction: column-reverse; gap: 10px;">
+<div id="chat-messages" class="flex flex-col-reverse  gap-2 justify-end">
 </div>
-<input autofocus type="text" name="content" placeholder="Message" onkeydown="handleKeyDown(event)">
-<button onclick="handleSendMessage(event)">Send</button>
+<div id="chat-feed-bottom" class="h-0"></div>
+</div>
+<div class="flex max-w-sm shrink-0 h-12 mt-auto rounded-md overflow-hidden border border-primary4">
+    <input class="h-full grow border-none rounded-none outline-none" autofocus type="text" name="content" placeholder="Message" onkeydown="handleKeyDown(event)">
+    <button class="border-r-0 h-full border-y-0 border-l border-l-primary3 rounded-none" id="send-message-button" onclick="handleSendMessage(event)">Send</button>
+</div>
 <script type="text/javascript">
     const chatMessages = {{messages|tojson}};
     const chatMessageFeed = document.getElementById('chat-messages');
-    
+    const chatContainer = document.getElementById('chat-container');
+    const chatFeedBottom = document.getElementById('chat-feed-bottom');
     const renderChatMessages = function() {
         chatMessageFeed.innerHTML = '';
         chatMessages.forEach(message => {
             const messageElement = document.createElement('div');
-            messageElement.style.border = '1px solid black';
+            messageElement.classList.add('message');
+            console.log(message.user_id, '{{session.user_id}}');
+            if (message.user_id.toString() === '{{session.user_id}}') {
+                messageElement.classList.add('sender');
+            } else {
+                messageElement.classList.add('recipient');
+            }
             messageElement.innerHTML = `
-            <p>${message.content}</p>
-            <span>${message.created_at}</span>
-            <span>${message.username}</span>`;
+            <div class="username mb-0.5 ">
+                <span>${message.username}</span>
+            </div>
+            <div class="content">
+                <p>${message.content}</p>
+            </div>
+            <div class="timestamp">
+                <span>${message.created_at}</span>
+            </div>
+            `;
             chatMessageFeed.appendChild(messageElement);
         });
+        // Hack, wait for the messages to render before scrolling to bottom
+        setTimeout(scrollToBottom, 0);
     }
     renderChatMessages();
     var socket = io();
 
     function markAsDisconnected() {
-        const sendButton = document.querySelector('button');
+        const sendButton = document.querySelector('#send-message-button');
         sendButton.innerHTML = 'Reconnecting...';
         sendButton.disabled = true;
     }
 
     function markAsConnected() {
-        const sendButton = document.querySelector('button');
+        const sendButton = document.querySelector('#send-message-button');
         sendButton.innerHTML = 'Send';
         sendButton.disabled = false;
+    }
+    
+    function scrollToBottom() {
+        chatFeedBottom.scrollIntoView({ behavior: 'smooth',
+            block: 'start',
+         });
     }
 
     function connectWithRetries(retry = 0) {
@@ -98,8 +126,12 @@
 
     const handleSendMessage = function(event) {
         event.preventDefault();
+        const content = document.querySelector('input[name="content"]').value;
+        if (content.length === 0) {
+            return;
+        }
         const message = {
-            content: document.querySelector('input[name="content"]').value,
+            content,
             group_id: '{{group.id}}'
         };
         document.querySelector('input[name="content"]').value = '';

@@ -1,0 +1,214 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-head-1;
+  }
+  h2 {
+    @apply text-head-2;
+  }
+  p {
+    @apply text-body;
+  }
+  span {
+    @apply text-elem-3;
+  }
+
+  a {
+    @apply text-elem-3 underline;
+  }
+  button {
+    @apply text-elem-3 h-8 border border-fg8 rounded-md px-2 py-1;
+  }
+
+  input {
+    @apply border border-fg8 h-8 rounded-md px-2 py-1 bg-transparent text-fg3;
+  }
+
+  label {
+    @apply text-elem-3 text-fg3 flex flex-col gap-1;
+  }
+}
+
+@layer utilities {
+  .message {
+    /* @apply border border-primary4 rounded-md px-4 py-2 max-w-sm; */
+  }
+
+  .content {
+    @apply border border-primary4 rounded-md px-4 py-2 max-w-sm;
+  }
+  .sender {
+    @apply ml-auto;
+  }
+  .recipient {
+    @apply mr-auto;
+  }
+  .recipient .content {
+    @apply bg-secondary2;
+  }
+
+  .sender .content {
+    @apply bg-primary2;
+  }
+
+  .sender .username {
+    @apply w-fit ml-auto;
+  }
+
+  .recipient .username {
+    @apply w-fit mr-auto;
+  }
+
+  .sender .timestamp {
+    @apply mr-auto;
+  }
+
+  .recipient .timestamp {
+    @apply ml-auto;
+  }
+
+  .timestamp span {
+    @apply text-elem-3 text-2xs;
+  }
+
+  .sender .timestamp span {
+    @apply text-fg8;
+  }
+
+  .recipient .timestamp span {
+    @apply text-fg8;
+  }
+
+  .username span {
+    @apply text-elem-3 text-fg3;
+  }
+
+  .group-card {
+    @apply border border-primary4 rounded-md px-4 py-2;
+  }
+
+  #view-container {
+    @apply flex flex-col grow overflow-y-hidden p-6;
+  }
+}
+
+:root {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  --white: #ffffff;
+  --fg1: hsl(270, 3%, 4%);
+  --fg2: hsl(270, 3%, 10%);
+  --fg3: hsl(270, 3%, 16%);
+  --fg4: hsl(270, 3%, 22%);
+  --fg5: hsl(270, 3%, 28%);
+  --fg6: hsl(270, 3%, 34%);
+  --fg7: hsl(270, 3%, 40%);
+  --fg8: hsl(270, 3%, 46%);
+  --fg9: hsl(270, 3%, 52%);
+
+  --bg1: hsl(192, 100%, 98%);
+  --bg2: hsl(192, 100%, 94%);
+  --bg3: hsl(192, 95%, 92%);
+  --bg4: hsl(192, 95%, 90%);
+  --bg5: hsl(192, 90%, 88%);
+  --bg6: hsl(192, 90%, 86%);
+  --bg7: hsl(192, 90%, 84%);
+  --bg8: hsl(192, 90%, 82%);
+  --bg9: hsl(192, 90%, 80%);
+
+  --primary1: hsl(154, 14%, 96%);
+  --primary2: hsl(154, 14%, 84%);
+  --primary3: hsl(154, 14%, 72%);
+  --primary4: hsl(154, 14%, 60%);
+  --primary5: hsl(154, 14%, 48%);
+  --primary6: hsl(154, 14%, 36%);
+  --primary7: hsl(154, 14%, 24%);
+  --primary8: hsl(154, 14%, 12%);
+  --primary9: hsl(154, 14%, 0%);
+
+  --secondary1: hsl(228, 38%, 96%);
+  --secondary2: hsl(228, 38%, 84%);
+  --secondary3: hsl(228, 38%, 72%);
+  --secondary4: hsl(228, 38%, 60%);
+  --secondary5: hsl(228, 38%, 48%);
+  --secondary6: hsl(228, 38%, 36%);
+  --secondary7: hsl(228, 38%, 24%);
+  --secondary8: hsl(228, 38%, 12%);
+  --secondary9: hsl(228, 38%, 0%);
+
+  --tertiary1: hsl(342, 96%, 96%);
+  --tertiary2: hsl(342, 96%, 84%);
+  --tertiary3: hsl(342, 96%, 72%);
+  --tertiary4: hsl(342, 96%, 60%);
+  --tertiary5: hsl(342, 96%, 48%);
+  --tertiary6: hsl(342, 96%, 36%);
+  --tertiary7: hsl(342, 96%, 24%);
+  --tertiary8: hsl(342, 96%, 12%);
+  --tertiary9: hsl(342, 96%, 0%);
+  background-color: var(--bg1);
+}
+
+:root.dark {
+  --white: #1a1a1a;
+  --fg1: hsl(270, 3%, 96%);
+  --fg2: hsl(270, 3%, 92%);
+  --fg3: hsl(270, 3%, 88%);
+  --fg4: hsl(270, 3%, 84%);
+  --fg5: hsl(270, 3%, 80%);
+  --fg6: hsl(270, 3%, 76%);
+  --fg7: hsl(270, 3%, 72%);
+  --fg8: hsl(270, 3%, 68%);
+  --fg9: hsl(270, 3%, 80%);
+
+  --bg1: hsl(192, 100%, 3%);
+  --bg2: hsl(192, 100%, 6%);
+  --bg3: hsl(192, 100%, 8%);
+  --bg4: hsl(192, 100%, 10%);
+  --bg5: hsl(192, 100%, 12%);
+  --bg6: hsl(192, 100%, 14%);
+  --bg7: hsl(192, 100%, 16%);
+  --bg8: hsl(192, 100%, 18%);
+  --bg9: hsl(192, 100%, 20%);
+
+  --primary1: hsl(154, 14%, 0%);
+  --primary2: hsl(154, 14%, 12%);
+  --primary3: hsl(154, 14%, 24%);
+  --primary4: hsl(154, 14%, 36%);
+  --primary5: hsl(154, 14%, 48%);
+  --primary6: hsl(154, 14%, 60%);
+  --primary7: hsl(154, 14%, 72%);
+  --primary8: hsl(154, 14%, 84%);
+  --primary9: hsl(154, 14%, 96%);
+
+  --secondary1: hsl(228, 38%, 0%);
+  --secondary2: hsl(228, 38%, 12%);
+  --secondary3: hsl(228, 38%, 24%);
+  --secondary4: hsl(228, 38%, 36%);
+  --secondary5: hsl(228, 38%, 48%);
+  --secondary6: hsl(228, 38%, 60%);
+  --secondary7: hsl(228, 38%, 72%);
+  --secondary8: hsl(228, 38%, 84%);
+  --secondary9: hsl(228, 38%, 96%);
+
+  --tertiary1: hsl(342, 56%, 4%);
+  --tertiary2: hsl(342, 56%, 12%);
+  --tertiary3: hsl(342, 56%, 20%);
+  --tertiary4: hsl(342, 56%, 28%);
+  --tertiary5: hsl(342, 56%, 36%);
+  --tertiary6: hsl(342, 56%, 44%);
+  --tertiary7: hsl(342, 56%, 52%);
+  --tertiary8: hsl(342, 56%, 68%);
+  --tertiary9: hsl(342, 56%, 80%);
+  background-color: var(--bg1);
+}
+
+body {
+  height: 100%;
+  width: 100%;
+}

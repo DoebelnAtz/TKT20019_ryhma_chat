@@ -1,29 +1,54 @@
 <!doctype html>
+<html lang="en" class="{{session.theme}}">
+
 <head>
-  <meta charset="utf-8">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" crossorigin="anonymous"></script>
-  <title>{% block title %}{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" crossorigin="anonymous"></script>
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/input.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
-<nav>
-  <h1>Chat</h1>
-  <ul>
-    {% if session.username %}
-    <p>You are logged in as {{ session.username }}</p>
-      <a href="{{ url_for('auth.logout') }}">Log Out</a>
-    {% else %}
-      <li><a href="{{ url_for('auth.signup') }}">Sign Up</a>
-      <li><a href="{{ url_for('auth.login') }}">Log In</a>
-    {% endif %}
-  </ul>
-  <a href="{{ url_for('root.index') }}">Home</a>
-</nav>
-<section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-  {% block content %}{% endblock %}
-</section>
+
+<body class="bg-bg1">
+
+    <div class="flex flex-col h-full w-full overflow-hidden">
+        <nav class="flex gap-8 px-4 border-b border-primary4 items-center w-full h-14 shrink-0 bg-primary2">
+            <h1>Chat</h1>
+            <ul class="flex gap-4 ml-auto items-center">
+                <button id="theme-toggle">Toggle Theme</button> {% if session.username %}
+                <span class="text-fg3 text-head-3">{{ session.username }}</span>
+                <a href="{{ url_for('auth.logout') }}">Log Out</a> {% else %}
+                <li><a href="{{ url_for('auth.signup') }}">Sign Up</a>
+                    <li><a href="{{ url_for('auth.login') }}">Log In</a> {% endif %}
+            </ul>
+        </nav>
+        <section class="w-full flex-grow overflow-hidden flex">
+            <div class="flash absolute top-14 right-1">
+                {% for message in get_flashed_messages() %}
+                <div class="bg-bg3 border border-fg3 rounded-md px-2 py-1">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% block content %}{% endblock %}
+        </section>
+    </div>
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const getCurrentTheme = () => window.localStorage.getItem('theme');
+        const currentTheme = getCurrentTheme();
+
+        if (currentTheme) {
+            document.documentElement.classList = currentTheme === 'dark' ? ['dark'] : ['light'];
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = getCurrentTheme();
+            window.localStorage.setItem('theme', currentTheme === 'dark' ? 'light' : 'dark');
+            document.documentElement.classList = currentTheme === 'dark' ? ['light'] : ['dark'];
+        });
+    </script>
+</body>
+
+</html>

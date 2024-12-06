@@ -1,13 +1,14 @@
 from flask import Blueprint, request, render_template, redirect, url_for, session
-from app.utils.groups import get_user_group, get_group_messages, create_group, add_user_to_group
+from app.utils.groups import decline_group_invite, get_user_group, get_group_messages
+from app.utils.groups import create_group, add_user_to_group
 from app.utils.groups import edit_user_group, invite_user_to_group, get_group_members
 from app.utils.groups import get_group_invites, is_user_group_creator
 from app.utils.groups import accept_group_invite, leave_user_group, delete_user_group
+from app.utils.groups import get_sidebar_data
 from app.utils.auth import login_required, csrf_required
 from app.db import db
-
 from app.utils.errors import HTTPError, handle_errors
-
+from app.utils.time import time_ago
 groups_bp = Blueprint('groups', __name__)
 
 
@@ -18,12 +19,15 @@ groups_bp = Blueprint('groups', __name__)
 def create():
     if request.method == 'POST':
         name = request.form['name']
-        created_group = create_group(name)
-        add_user_to_group(created_group)
+        created_group_id = create_group(name)
+        add_user_to_group(created_group_id)
         db.session.commit()
-        return redirect(url_for('root.index'))
+        return redirect(url_for('groups.edit', group_id=created_group_id))
     else:
-        return render_template('groups/create.html')
+        user_invites, user_groups = get_sidebar_data()
+        return render_template('groups/create.html',
+                               user_invites=user_invites,
+                               user_groups=user_groups)
 
 
 @groups_bp.route("/<int:group_id>", methods=['GET'])
@@ -36,13 +40,14 @@ def group(group_id):
         raise HTTPError('Group not found.', 404)
     members = get_group_members(group_id)
 
-    limit = pages * 20
+    limit = pages * 30
     messages = get_group_messages(group_id, limit=limit)
     has_more_messages = len(messages) == limit
+    user_invites, user_groups = get_sidebar_data()
     messages_serializable = [{
         'content': message.content,
         'id': message.id,
-        'created_at': message.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+        'created_at': time_ago(message.created_at),
         'username': message.username,
         'user_id': message.user_id
     } for message in messages]
@@ -54,7 +59,9 @@ def group(group_id):
                                user_group, session['user_id']),
                            pages=pages,
                            has_more_messages=has_more_messages,
-                           members=members)
+                           members=members,
+                           user_groups=user_groups,
+                           user_invites=user_invites)
 
 
 @groups_bp.route("/edit/<int:group_id>", methods=('GET', 'POST'))
@@ -69,14 +76,17 @@ def edit(group_id):
         return redirect(url_for('groups.group', group_id=group_id))
     else:
         user_group = get_user_group(group_id)
-        invites = get_group_invites(group_id)
+        group_invites = get_group_invites(group_id)
         members = get_group_members(group_id)
+        user_invites, user_groups = get_sidebar_data()
         is_creator = is_user_group_creator(user_group, session['user_id'])
         return render_template('groups/edit.html',
                                group=user_group,
                                members=members,
-                               invites=invites,
-                               is_creator=is_creator)
+                               group_invites=group_invites,
+                               is_creator=is_creator,
+                               user_groups=user_groups,
+                               user_invites=user_invites)
 
 
 @groups_bp.route("/edit/<int:group_id>/invite", methods=['POST'])
@@ -95,7 +105,11 @@ def invite(group_id):
 @handle_errors
 @csrf_required
 def accept_invite(invite_id):
-    accept_group_invite(invite_id)
+    value = request.form['decision']
+    if value == 'true':
+        accept_group_invite(invite_id)
+    elif value == 'false':
+        decline_group_invite(invite_id)
     db.session.commit()
     return redirect(url_for('root.index'))
 

@@ -1,0 +1,12 @@
+{
+  "name": "TKT20019_ryhma_chat",
+  "version": "1.0.0",
+  "description": "Group chat",
+  "main": "index.js",
+  "repository": "https://github.com/DoebelnAtz/TKT20019_ryhma_chat.git",
+  "author": "DoebelnAtz <axel.ej.adlercreutz@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "tailwindcss": "^3.4.15"
+  }
+}

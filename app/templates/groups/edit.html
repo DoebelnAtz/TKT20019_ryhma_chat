@@ -1,43 +1,45 @@
-{% extends "base.html" %}
+{% extends "groups/group-base.html" %}
 
-{% block header %}
-<h1>Edit Group</h1>
-{% endblock %}
+{% block group_content %}
+<div id="view-container" class="gap-6">
+    <div class="flex flex-col gap-4 max-w-screen-lg">
+        <h1>Edit Group</h1>
+        <div class="flex gap-2 items-end">
+            <form class="flex gap-2 items-end" action="{{ url_for('groups.edit', group_id=group.id) }}" method="post">
+                <label for="name">Name
+                    <input type="text" name="name" value="{{ group.name }}">
+                </label>
+                <button type="submit" value="Save">Save</button>
+                <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+            </form> 
+            {% if is_creator %}
+            <form class="flex gap-2 items-end" action="{{ url_for('groups.delete', group_id=group.id) }}" method="post">
+                <button class="bg-tertiary3" type="submit" value="Delete">Delete</button>
+                <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+            </form>
+            {% endif %}
+        </div>
+        <div class="flex border border-primary4 rounded-md p-4 flex-col gap-4">
+            <div class="flex  gap-2">
+                <h2>Members ({{ members|length }})</h2>
+            </div>
+            {% for member in members %}
+            <p>{{ member.username }}</p>
+            {% for invite in group_invites %}
+            <div class="flex gap-2 items-center">
+                <span class="text-elem3 text-fg6">{{ invite.username }} </span>
+                <span class="text-xs text-secondary6">pending</span>
+            </div>
+            {% endfor %}
+            {% endfor %}
+            <form class="flex gap-2 items-end" action="{{ url_for('groups.invite', group_id=group.id) }}" method="post">
+                <input type="text" class="h-6 text-xs" aria-label="Username" name="username" placeholder="Username">
+                <button type="submit" class="h-6 text-xs" value="Invite">Invite</button>
+                <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+            </form>
+            
+        </div>
 
-{% block content %}
-<form action="{{ url_for('groups.edit', group_id=group.id) }}" method="post">
-    <label for="name">Name</label>
-    <input type="text" name="name" value="{{ group.name }}">
-    <input type="submit" value="Save">
-    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
-</form>
-{% if is_creator %}
-<h2>Delete Group</h2>
-<form action="{{ url_for('groups.delete', group_id=group.id) }}" method="post">
-    <input type="submit" value="Delete">
-    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
-</form>
-{% endif %}
-<h2>Members</h2>
-{% for member in members %}
-<p>{{ member.username }}</p>
-{% endfor %}
-<h2>Invites</h2>
-{% for invite in invites %}
-<p>{{ invite.username }}</p>
-{% endfor %}
-<h2>Invite User</h2>
-<form action="{{ url_for('groups.invite', group_id=group.id) }}" method="post">
-    <label for="username">Username</label>
-    <input type="text" name="username">
-    <input type="submit" value="Invite">
-    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
-</form>
-{% if not is_creator %}
-<h2>Leave Group</h2>
-<form action="{{ url_for('groups.leave', group_id=group.id) }}" method="post">
-    <input type="submit" value="Leave">
-    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
-</form>
-{% endif %}
+    </div>
+</div>
 {% endblock %}

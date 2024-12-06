@@ -1,19 +1,11 @@
-{% extends 'base.html' %}
-
-{% block header %}
-    <h1>{% block title %}Sign Up{% endblock %}</h1>
-{% endblock %}
-{% block content %}
-<div>
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
-    <form method="post">
-        <label for="username">Username</label>
-        <input name="username" id="username" required>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" required>
-        <input type="submit" value="Sign Up">
-    </form>
-</div>
-{% endblock %}
+{% extends 'auth/auth-base.html' %} {% block auth_title %}Sign Up{% endblock %} {% block form_content %}
+<label for="username">Username
+    <input name="username" id="username" required>
+</label>
+<label for="password">Password
+    <input type="password" name="password" id="password" required>
+</label> {% if error %}
+<p class="text-red-500">{{ error }}</p>
+{% endif %}
+<button type="submit" class="w-full mt-4 bg-primary3">Sign Up</button>
+<a class="text-xs text-fg9" href="{{ url_for('auth.login') }}">Already have an account? Log In</a> {% endblock %}

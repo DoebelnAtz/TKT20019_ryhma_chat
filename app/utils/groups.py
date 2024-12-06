@@ -34,8 +34,9 @@ def get_user_groups():
 
 def get_user_invites():
     sql = """
-    SELECT gi.id, g.name FROM group_invites gi 
+    SELECT gi.id, g.name, s.username as sender_username FROM group_invites gi 
     JOIN groups g ON gi.group_id = g.id
+    JOIN users s ON gi.sender_id = s.id
     WHERE gi.recipient_id = :user_id
     """
     result = db.session.execute(text(sql), {"user_id": session['user_id']})
@@ -57,6 +58,13 @@ def accept_group_invite(invite_id):
     add_user_to_group(invite.group_id)
     sql = "DELETE FROM group_invites WHERE id = :invite_id"
     db.session.execute(text(sql), {"invite_id": invite_id})
+    db.session.commit()
+
+
+def decline_group_invite(invite_id):
+    sql = "DELETE FROM group_invites WHERE id = :invite_id AND recipient_id = :user_id"
+    db.session.execute(
+        text(sql), {"invite_id": invite_id, "user_id": session['user_id']})
     db.session.commit()
 
 
@@ -199,3 +207,7 @@ def delete_user_group(group_id):
     sql = "DELETE FROM groups WHERE id = :group_id AND created_by = :user_id"
     db.session.execute(
         text(sql), {"group_id": group_id, "user_id": session['user_id']})
+
+
+def get_sidebar_data():
+    return get_user_invites(), get_user_groups()
