@@ -15,14 +15,14 @@ class Logger:
         self.name = name
 
     def log(self, *args):
-        print(f"{Color.cyan}LOG{Color.reset} | {Color.bold}{
-              self.name}{Color.reset}", *args)
+        print(f"""{Color.cyan}LOG{Color.reset} | {
+              Color.bold}{self.name}{Color.reset}""", *args)
 
     def debug(self, *args):
         if os.environ.get('FLASK_ENV') == 'development':
-            print(f"{Color.green}DEBUG{Color.reset} | {Color.bold}{
-                  self.name}{Color.reset}:", *args)
+            print(f"""{Color.green}DEBUG{Color.reset} | {
+                  Color.bold}{self.name}{Color.reset}""", *args)
 
     def error(self, *args):
-        print(f"{Color.red}ERROR{Color.reset} | {Color.bold}{
-              self.name}{Color.reset}:", *args)
+        print(f"""{Color.red}ERROR{Color.reset} | {
+              Color.bold}{self.name}{Color.reset}""", *args)

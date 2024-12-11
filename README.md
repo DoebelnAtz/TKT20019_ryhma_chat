@@ -14,59 +14,34 @@ Sovelluksen ulkonäköä ei ole hiottu, ei ole vielä reaaliaikaista viestintä�
 
 ## Setup
 
-Asennusohjeet:
+1. **Asenna docker compose**
 
-1. **Ympäristön valmistelu**: Varmista, että sinulla on asennettuna Python ja virtuaaliympäristötyökalu, kuten `venv` tai `virtualenv`.
+- **Linux:**
 
-2. **Virtuaaliympäristön luominen**: Luo ja aktivoi virtuaaliympäristö projektin juurikansiossa:
+  ```bash
+  sudo apt-get update
+  sudo apt-get install docker-compose-plugin
+  ```
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   venv\Scripts\activate  # Windows
-   ```
+  (ohjeet haettu netistä, ei testattu)
 
-3. **Riippuvuuksien asentaminen**: Asenna tarvittavat Python-kirjastot `requirements.txt`-tiedostosta:
+- **Mac:**
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+  Jos sinulla on Homebrew asennettuna, voit asentaa Docker Composen suorittamalla:
 
-4. **Tietokannan alustaminen**: Voit alustaa tietokannan kahdella tavalla: joko käyttämällä valmista `docker-compose`-tiedostoa tai oman tietokantapalvelimen avulla.
+  ```bash
+  brew install docker-compose
+  ```
 
-   **Vaihtoehto 1: Docker-compose**
+  Vaihtoehtoisesti voit käyttää Docker Desktop for Mac -ohjelmistoa, joka sisältää Docker Composen. Lataa se [Dockerin virallisilta verkkosivuilta](https://www.docker.com/products/docker-desktop) ja seuraa asennusohjeita.
 
-   Jos haluat käyttää `docker-compose`-työkalua, varmista, että se on asennettuna järjestelmääsi. Projektin juurikansiossa on valmiina `docker-compose.yml`-tiedosto, joka määrittelee Postgres palvelun:
-
-   ```bash
-   docker-compose up
-   ```
-
-   Tämä käynnistää PostgreSQL-tietokannan dockerissa ja alustaa sen automaattisesti portilla 6543
-
-   **Vaihtoehto 2: Oma tietokantapalvelin**
-
-   Jos haluat käyttää omaa tietokantapalvelinta, varmista, että PostgreSQL on asennettuna ja käynnissä. Suorita `schema.sql`-tiedosto luodaksesi tarvittavat tietokantataulut. Tämä voidaan tehdä esimerkiksi `psql`-komennolla:
+2. **Run init_local.sh**
 
    ```bash
-   psql -U käyttäjänimi -d tietokanta -f schema.sql
+   ./init_local.sh
    ```
 
-   Sinun pitää myös lisätä Käyttäjänimen, portin, etc. tiedostoihin ./reset_db.sh ja ./config.py.
-
-5. **Tietokannan alustaminen**:
-   Suorita `./reset_db.sh` -skripti tietokannan nollaamiseksi ja alustamiseksi tarvittavilla tauluilla ja tiedoilla. Tämä skripti pudottaa olemassa olevat taulukot ja luo uudet schema.sql mukaisesti.
-
-6. **Ympäristön alustaminen**:
-   Suorita ./init_env.sh -skripti joka luo uuden .flaskenv tiedoston mallin perusteella.
-
-7. **Sovelluksen käynnistäminen**: Käynnistä Flask-sovellus:
-
-   ```bash
-   flask run
-   ```
-
-8. **Käyttö**: Avaa selain ja siirry osoitteeseen `http://127.0.0.1:5000` käyttääksesi sovellusta.
+   Tämä scripti alustaa venv:in, tietokannan ja käynnistää flaskin
 
 ## Näkymät.
 

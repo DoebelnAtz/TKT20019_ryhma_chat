@@ -36,7 +36,6 @@ def signup():
             return redirect(url_for('auth.login'))
         else:
             return redirect(url_for('auth.signup', error=error))
-
     return render_template('auth/signup.html', error=error)
 
 
