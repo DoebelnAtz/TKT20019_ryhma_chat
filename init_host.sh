@@ -73,7 +73,7 @@ server {
     }
 
     location /static/ {
-        alias /home/$USER/$DIRECTORY/static/;
+        alias /home/$USER/$DIRECTORY/app/static/;
     }
 }
 EOL
@@ -128,7 +128,7 @@ sudo systemctl start $DIRECTORY.service
 sudo systemctl enable $DIRECTORY.service
 
 echo "Checking the status of the service..."
-sudo systemctl status $DIRECTORY.service
+sudo systemctl status $DIRECTORY.service --no-pager
 
 
 echo "Installing Fail2ban..."
