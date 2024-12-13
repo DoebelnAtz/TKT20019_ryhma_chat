@@ -4,11 +4,16 @@
 # Check if email argument is provided
 if [ $# -eq 0 ]; then
     echo "Error: Email address required as command line argument"
-    echo "Usage: $0 email@example.com" 
+    echo "Usage: $0 [email@example.com] [password]" 
     exit 1
 fi
 
 EMAIL=$1
+DB_PASSWORD=$2
+
+export DB_USER="marvin"
+export DB_PASSWORD=$DB_PASSWORD
+export DB_NAME="deep_thought"
 
 
 # Bash script to set up a Flask app with WebSocket support on a Debian server
