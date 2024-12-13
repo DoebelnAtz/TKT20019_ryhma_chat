@@ -41,8 +41,7 @@ sudo -u postgres psql -c "DO \$do\$ BEGIN IF NOT EXISTS (SELECT FROM pg_catalog.
 sudo -u postgres psql -c "CREATE DATABASE $DB_NAME OWNER $DB_USER"
 sudo -u postgres psql -c "GRANT ALL ON DATABASE $DB_NAME TO $DB_USER;"
 
-sudo -u postgres psql -f schema.sql
-
+psql "postgresql://${DB_USER}:${DB_PASSWORD}@localhost:${PG_PORT}/${DB_NAME}" -f schema.sql
 echo "PostgreSQL installation and configuration complete."
 
 echo "Connection details:"
