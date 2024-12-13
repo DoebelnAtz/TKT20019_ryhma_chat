@@ -37,9 +37,22 @@ done
 
 echo "Creating PostgreSQL user and database..."
 # Switch to the postgres user to create user and database
-sudo -u postgres psql -c "DO \$do\$ BEGIN IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = '$DB_USER') THEN CREATE ROLE $DB_USER; END IF; ALTER ROLE $DB_USER WITH LOGIN PASSWORD '$DB_PASSWORD' NOSUPERUSER CREATEDB NOCREATEROLE; END \$do\$;"
-sudo -u postgres psql -c "CREATE DATABASE IF NOT EXISTS $DB_NAME OWNER $DB_USER"
-sudo -u postgres psql -c "GRANT ALL ON DATABASE $DB_NAME TO $DB_USER;"
+sudo -u postgres psql -v ON_ERROR_STOP=1 \
+    -v DB_USER="'$DB_USER'" \
+    -v DB_PASSWORD="'$DB_PASSWORD'" \
+    --username "postgres" --dbname "postgres" <<-EOSQL
+    DO \$do\$ 
+    BEGIN 
+        IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = :'DB_USER') THEN 
+            CREATE ROLE :'DB_USER'; 
+        END IF; 
+        ALTER ROLE :'DB_USER' WITH LOGIN PASSWORD :'DB_PASSWORD' NOSUPERUSER CREATEDB NOCREATEROLE; 
+    END 
+    \$do\$;
+EOSQL
+
+sudo -u postgres psql -c "CREATE DATABASE \"$DB_NAME\" OWNER \"$DB_USER\""
+sudo -u postgres psql -c "GRANT ALL ON DATABASE \"$DB_NAME\" TO \"$DB_USER\""
 
 sudo -u postgres psql -f schema.sql
 
