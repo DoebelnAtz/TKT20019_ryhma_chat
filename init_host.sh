@@ -1,5 +1,16 @@
 #!/bin/bash
 
+#Email from command line argument
+# Check if email argument is provided
+if [ $# -eq 0 ]; then
+    echo "Error: Email address required as command line argument"
+    echo "Usage: $0 email@example.com" 
+    exit 1
+fi
+
+EMAIL=$1
+
+
 # Bash script to set up a Flask app with WebSocket support on a Debian server
 # This script assumes that I've already cloned the TKT_Chat repository to ~/TKT_Chat and it is ran inside that directory
 DIRECTORY="TKT_Chat"
@@ -11,6 +22,9 @@ set -e
 echo "Updating and upgrading the system packages..."
 sudo apt update
 sudo apt upgrade -y
+
+echo "Setting up PostgreSQL..."
+./init_host_postgres.sh
 
 echo "Installing Python3, pip3, and virtualenv..."
 sudo apt install -y python3 python3-pip python3-venv
@@ -74,7 +88,7 @@ sudo systemctl enable --now certbot.timer
 
 
 echo "Obtaining SSL certificate with Certbot..."
-sudo certbot --nginx --non-interactive --agree-tos --redirect -d ${DOMAIN}
+sudo certbot --nginx --non-interactive --agree-tos --redirect -d ${DOMAIN} --email ${EMAIL}
 
 
 echo "Creating a systemd service file for the Flask app..."
