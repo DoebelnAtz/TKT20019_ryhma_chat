@@ -40,6 +40,21 @@ echo "Installing Python3, pip3, and virtualenv..."
 sudo apt install -y python3 python3-pip python3-venv
 
 cd ~/$DIRECTORY
+# check if key is already set in key.txt
+if [ ! -f key.txt ]; then
+    secret_key=$(openssl rand -hex 32)
+    echo $secret_key > key.txt
+    echo "Secret key generated and saved to key.txt"
+else
+    echo "Secret key already set in key.txt"
+fi
+
+# Create .flaskenv file
+echo "Setting up .flaskenv file..."
+echo "FLASK_APP=app:create_app" > .flaskenv
+echo "FLASK_ENV=production" >> .flaskenv
+echo "DB_PASSWORD=$DB_PASSWORD" >> .flaskenv
+echo "SECRET_KEY=$(cat key.txt)" >> .flaskenv
 
 echo "Setting up a virtual environment..."
 python3 -m venv venv

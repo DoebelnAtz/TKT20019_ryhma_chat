@@ -18,7 +18,7 @@ sudo apt install -y postgresql postgresql-contrib
 
 # Modify postgresql.conf to change the listening port
 PG_CONF="/etc/postgresql/$(ls /etc/postgresql)/main/postgresql.conf"
-sudo sed -i "s/^#port = .*/port = $PG_PORT/" "$PG_CONF"
+sudo sed -i "s/^#\?port\s*=\s*.*/port = $PG_PORT/" "$PG_CONF"
 
 # Ensure PostgreSQL is listening on localhost
 sudo sed -i "s/^#listen_addresses = .*/listen_addresses = 'localhost'/" "$PG_CONF"
