@@ -28,8 +28,13 @@ echo "Updating and upgrading the system packages..."
 sudo apt update
 sudo apt upgrade -y
 
-echo "Setting up PostgreSQL..."
-./init_host_postgres.sh
+# Check if the PostgreSQL setup script is already run
+if [ ! -f /etc/postgresql/$(ls /etc/postgresql)/main/postgresql.conf ]; then
+    echo "Setting up PostgreSQL..."
+    ./init_host_postgres.sh
+else
+    echo "PostgreSQL setup already completed."
+fi
 
 echo "Installing Python3, pip3, and virtualenv..."
 sudo apt install -y python3 python3-pip python3-venv
@@ -85,6 +90,18 @@ sudo nginx -t
 echo "Restarting Nginx..."
 sudo systemctl restart nginx
 
+# Ufw is a firewall that is used to manage incoming and outgoing traffic on a Linux system.
+echo "Installing ufw..."
+sudo apt install ufw
+
+
+echo "Allowing Nginx Full and OpenSSH through ufw..."
+sudo ufw allow 'Nginx Full'
+sudo ufw allow 'OpenSSH'
+sudo ufw allow 6543/tcp
+
+sudo ufw enable
+
 echo "Installing certbot..."
 sudo apt install -y certbot python3-certbot-nginx
 
@@ -126,16 +143,7 @@ echo "Checking the status of the service..."
 sudo systemctl status $DIRECTORY.service
 
 
-# Ufw is a firewall that is used to manage incoming and outgoing traffic on a Linux system.
-echo "Installing ufw..."
-sudo apt install ufw
 
-
-echo "Allowing Nginx Full and OpenSSH through ufw..."
-sudo ufw allow 'Nginx Full'
-sudo ufw allow 'OpenSSH'
-
-sudo ufw enable
 
 
 echo "Installing Fail2ban..."
