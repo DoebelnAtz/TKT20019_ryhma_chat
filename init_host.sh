@@ -90,18 +90,6 @@ sudo nginx -t
 echo "Restarting Nginx..."
 sudo systemctl restart nginx
 
-# Ufw is a firewall that is used to manage incoming and outgoing traffic on a Linux system.
-echo "Installing ufw..."
-sudo apt install ufw
-
-
-echo "Allowing Nginx Full and OpenSSH through ufw..."
-sudo ufw allow 'Nginx Full'
-sudo ufw allow 'OpenSSH'
-sudo ufw allow 6543/tcp
-
-sudo ufw enable
-
 echo "Installing certbot..."
 sudo apt install -y certbot python3-certbot-nginx
 
@@ -141,9 +129,6 @@ sudo systemctl enable $DIRECTORY.service
 
 echo "Checking the status of the service..."
 sudo systemctl status $DIRECTORY.service
-
-
-
 
 
 echo "Installing Fail2ban..."
