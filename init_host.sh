@@ -2,8 +2,8 @@
 
 # Bash script to set up a Flask app with WebSocket support on a Debian server
 # This script assumes that I've already cloned the TKT_Chat repository to ~/TKT_Chat and it is ran inside that directory
-$DIRECTORY = "TKT_Chat"
-$DOMAIN = "taival.app" # A domain I happen to have
+DIRECTORY="TKT_Chat"
+DOMAIN="taival.app" # A domain I happen to have
 
 # Exit immediately if a command exits with a non-zero status
 set -e
