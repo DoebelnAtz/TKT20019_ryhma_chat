@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Bash script to set up a Flask app with WebSocket support on a Debian server
-# This script assumes that I've already cloned the TKT_Chat repository to ~/TKT_Chat
+# This script assumes that I've already cloned the TKT_Chat repository to ~/TKT_Chat and it is ran inside that directory
 $DIRECTORY = "TKT_Chat"
 $DOMAIN = "taival.app" # A domain I happen to have
 
@@ -22,7 +22,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 echo "Installing Flask and dependencies..."
-pip install -r requirements.txt
+pip install -r ~/$DIRECTORY/requirements.txt
 
 echo "Deactivating the virtual environment..."
 deactivate
