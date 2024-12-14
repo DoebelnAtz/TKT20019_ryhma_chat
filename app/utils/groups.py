@@ -3,7 +3,7 @@ from sqlalchemy import text
 from app.utils.errors import HTTPError
 from app.utils.users import get_user_by_username
 from app.db import db
-
+from app.utils.messages import format_message
 MAX_GROUP_NAME_LENGTH = 100
 MAX_MESSAGE_LENGTH = 1000
 
@@ -109,14 +109,13 @@ def send_group_message(group_id, content):
     )
     db.session.commit()
     created_message = result.fetchone()
-    message = {
-        "id": created_message.id,
-        "content": created_message.content,
-        "created_at": created_message.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+    return format_message({
+        "id": created_message[0],
+        "content": created_message[1], 
+        "created_at": created_message[2],
         "username": session['username'],
         "user_id": session['user_id']
-    }
-    return message
+    })
 
 
 def is_group_creator(group_id):

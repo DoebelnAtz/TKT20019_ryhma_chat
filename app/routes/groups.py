@@ -6,9 +6,9 @@ from app.utils.groups import get_group_invites, is_user_group_creator
 from app.utils.groups import accept_group_invite, leave_user_group, delete_user_group
 from app.utils.groups import get_sidebar_data
 from app.utils.auth import login_required, csrf_required
+from app.utils.messages import format_message
 from app.db import db
 from app.utils.errors import HTTPError, handle_errors
-from app.utils.time import time_ago
 groups_bp = Blueprint('groups', __name__)
 
 
@@ -44,13 +44,15 @@ def group(group_id):
     messages = get_group_messages(group_id, limit=limit)
     has_more_messages = len(messages) == limit
     user_invites, user_groups = get_sidebar_data()
-    messages_serializable = [{
-        'content': message.content,
-        'id': message.id,
-        'created_at': time_ago(message.created_at),
-        'username': message.username,
-        'user_id': message.user_id
-    } for message in messages]
+    messages_serializable = [
+        format_message({
+            "id": message[0],
+            "content": message[1],
+            "created_at": message[2],
+            "username": message[3],
+            "user_id": message[4]
+        })
+        for message in messages]
 
     return render_template('groups/group.html',
                            group=user_group,
