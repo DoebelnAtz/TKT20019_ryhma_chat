@@ -110,6 +110,7 @@ sudo certbot --nginx --non-interactive --agree-tos --redirect -d ${DOMAIN} --ema
 echo "Creating a systemd service file for the Flask app..."
 SERVICE_FILE="/etc/systemd/system/$DIRECTORY.service"
 
+# Note — gunicorn doesn't seem to look at .flaskenv file, so we need to set the environment variables here
 sudo bash -c "cat > $SERVICE_FILE" << EOL
 [Unit]
 Description=Gunicorn instance to serve $DIRECTORY Flask app
