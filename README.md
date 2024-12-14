@@ -4,6 +4,10 @@ TKT20019
 
 Tämä web-applikaatio antaa käyttäjän lähettää viestejä eri ryhmissä muille käyttäjille. Käyttäjä voi luoda uusia ryhmiä ja kutsua muita käyttäjiä näihin ryhmiin.
 
+## Lopullinen palautus
+
+Ulkonäkö on hiottu, reaaliaikainen viestintä on toteutettu ja kaikki toiminnot on toteutettu. Appi on deployattu https://taival.app. Appi on deployattu GCP compute engine e2-small instanssiin. init_host.sh scripti alustaa hostin ja asentaa kaikki tarvittavat palvelut. Postgres pyörii samalla instanssilla.
+
 ## Valipalautus 3:
 
 Sovelluksen kaikki toiminnot on toteutettu ja perus tietoturvahuolet niin kuin CSRF ja SQL-injektio ja salasanan salaaminen on otettu huomioon. Ulkonäköa ei ole vielä hiottu.
@@ -92,4 +96,3 @@ Sovelluksen ulkonäköä ei ole hiottu, ei ole vielä reaaliaikaista viestintä�
 - Lähettäjä - Käyttäjä(tunniste)
 - Ryhmä(tunniste)
 - Käyttäjä(tunniste)
-  $$
