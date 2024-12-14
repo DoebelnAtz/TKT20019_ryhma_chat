@@ -82,19 +82,9 @@
          });
     }
 
-    function connectWithRetries(retry = 0) {
-        if (retry > 5) {
-            return;
-        }
-        try {
-            setTimeout(function() {
-                console.debug("Connecting to socket, attempt", retry);
-                socket.connect();
-            }, 1000 * (retry ** 2));
-        } catch (error) {
-            console.debug("Failed to connect to socket, retrying...", error);
-            connectWithRetries(retry + 1);
-        }
+    function connectSocket() {
+        socket.connect();
+        
     }
     socket.emit('join_group', {group_id: '{{group.id}}'});
     socket.on('connect', function() {
@@ -109,7 +99,7 @@
     socket.on('disconnect', function() {
         console.log('disconnected');
         markAsDisconnected();
-        connectWithRetries();
+        connectSocket();
     });
 
     socket.on('connect', function() {
