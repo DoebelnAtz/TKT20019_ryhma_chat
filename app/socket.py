@@ -5,7 +5,7 @@ from app.utils.errors import handle_socket_errors
 from app.utils.logger import Logger
 
 logger = Logger('Socket')
-socketio = SocketIO()
+socketio = SocketIO(cors_allowed_origins=['http://localhost:5000', 'https://taival.app'])
 
 
 def register_socket_events():
