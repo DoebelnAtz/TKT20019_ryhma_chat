@@ -10,6 +10,13 @@ set -e
 # Variables (Please update these with your desired values)
 PG_PORT=6543                  # PostgreSQL port to listen on
 
+if [ $# -eq 0 ]; then
+    echo "Error: Password required as command line argument"
+    echo "Usage: $0 [password]" 
+    exit 1
+fi
+
+DB_PASSWORD=$1
 echo "Updating package lists..."
 sudo apt update
 

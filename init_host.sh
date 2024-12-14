@@ -12,7 +12,6 @@ EMAIL=$1
 DB_PASSWORD=$2
 
 export DB_USER="marvin"
-export DB_PASSWORD=$DB_PASSWORD
 export DB_NAME="deep_thought"
 
 
@@ -31,7 +30,7 @@ sudo apt upgrade -y
 # Check if the PostgreSQL setup script is already run
 if [ ! -f /etc/postgresql/$(ls /etc/postgresql)/main/postgresql.conf ]; then
     echo "Setting up PostgreSQL..."
-    ./init_host_postgres.sh
+    ./init_host_postgres.sh $DB_PASSWORD
 else
     echo "PostgreSQL setup already completed."
 fi
@@ -48,14 +47,6 @@ if [ ! -f key.txt ]; then
 else
     echo "Secret key already set in key.txt"
 fi
-
-# Create .flaskenv file
-echo "Setting up .flaskenv file..."
-echo "FLASK_APP=app:create_app" > .flaskenv
-echo "FLASK_ENV=production" >> .flaskenv
-echo "DB_PASSWORD=$DB_PASSWORD" >> .flaskenv
-echo "SECRET_KEY=$(cat key.txt)" >> .flaskenv
-
 echo "Setting up a virtual environment..."
 python3 -m venv venv
 source venv/bin/activate
@@ -129,7 +120,11 @@ User=$USER
 Group=www-data
 WorkingDirectory=/home/$USER/$DIRECTORY
 Environment="PATH=/home/$USER/$DIRECTORY/venv/bin"
-ExecStart=/home/$USER/$DIRECTORY/venv/bin/gunicorn --worker-class eventlet -w 1 -b localhost:5000 app:app
+Environment="FLASK_APP=app:create_app"
+Environment="FLASK_ENV=production"
+Environment="DB_PASSWORD=$DB_PASSWORD"
+Environment="SECRET_KEY=$(cat key.txt)"
+ExecStart=/home/$USER/$DIRECTORY/venv/bin/gunicorn --worker-class eventlet -w 1 -b localhost:5000 app:app --reload
 
 [Install]
 WantedBy=multi-user.target
