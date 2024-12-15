@@ -161,9 +161,19 @@ enabled  = true
 
 [nginx-limit-req]
 enabled = true
+filter = nginx-limit-req
+logpath = /var/log/nginx/error.log
+findtime = 60
+bantime = 3600     # 1 hour
+maxretry = 5       
 
 [nginx-req-limit]
 enabled = true
+filter = nginx-req-limit
+logpath = /var/log/nginx/error.log
+findtime = 60
+bantime = 7200     # 2 hours
+maxretry = 3
 
 [nginx-dos]
 enabled  = true
